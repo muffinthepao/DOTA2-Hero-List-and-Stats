@@ -7,15 +7,8 @@ const imgUrl = "https://api.opendota.com";
 const data = async function getListOfHeroes(url) {
     try {
         const response = await fetch(url);
-        return await response.json();
-    } catch (ex) {
-        console.log("ex: ", ex);
-    }
-};
-
-function createHeroes() {
-    data(url).then((rs) => {
-        rs.map((hero) => {
+        const heroesData = await response.json();
+        return heroesData.map((hero) => {
             return new Hero(
                 hero.localized_name,
                 hero.primary_attr,
@@ -29,19 +22,12 @@ function createHeroes() {
                 hero.move_speed
             );
         });
-    });
-}
+    } catch (ex) {
+        console.log("ex: ", ex);
+    }
+};
 
-// data(url).then((rs) => {console.log(rs)})
-// const allHeroes = data(url).then((rs) => {
-//     rs.map(hero => {
-//         return new Hero(
-//             hero.localized_name
-//         )
-//     })
-// })
-
-// holds info about each hero
+// function to create new hero instances
 class Hero {
     constructor(
         heroName,
@@ -70,17 +56,33 @@ class Hero {
 
 class Game {
     arrayOfHeroes = [];
-    //list of heroes [Hero, Hero, Hero, Hero]
-    //display list of heroes
+    constructor(heroes) {
+        //list of heroes [Hero, Hero, Hero, Hero]
+        this.arrayOfHeroes = heroes;
+        this.display();
+    }
+
+    //display images on index.html
+    display() {
+        return this.arrayOfHeroes.forEach((element) => {
+            const push = document.querySelector("#hero-list");
+            const htmlElements = `
+                <div class="hero-image">
+                    <img src="${imgUrl}${element.image}"/>
+                </div>
+                `;
+            push.insertAdjacentHTML("beforeend", htmlElements);
+        });
+    }
 }
 
-function init() {
-    // data(url).then((rs) => {console.log("list of heroes: ", rs)});
-
+async function init() {
     // function create instances of hero(s)
-    createHeroes();
+    const heroes = await data(url);
 
     //array of hero instances push into new Dota2 class
+    const Dota2 = new Game(heroes);
+    console.log("List of heroes: ", Dota2);
 }
 
 init();

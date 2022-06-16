@@ -20,10 +20,14 @@ header {
 #hero-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
 
 }
 .hero-image {
     width: 256px;
     height: 144px;
+}
+
+.hero-image img {
+    width: 95%;
 }
