@@ -1,5 +1,15 @@
 body {
-    background-color: rgb(195, 206, 206);
+    /* background-color: rgb(0, 0, 0);
+    background-image: linear-gradient(to top right, black , rgb(215, 215, 215)); */
+    background-image: url(./attribute-images/dota2-background-image.jpeg);
+    font-family: Arial, Helvetica, sans-serif;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    position: relative;
+    min-height: 0;
+
 }
 
 header {
@@ -7,8 +17,21 @@ header {
     display: flex;
     justify-content:space-between;
     align-items: center;
-    background-color: aqua;
+    color: white;
     
+}
+
+header .logo {
+    width: 200px;
+    min-width: 200px;
+    height: 50px;
+    min-height: 50px;
+    background-image: url(./attribute-images/dota2_logo_horiz.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: .8;
+    margin-right: 40px;
 }
 
 .nav-buttons li {
@@ -17,17 +40,109 @@ header {
 
 }
 
+#actions {
+    display: flex;
+    justify-content: center;
+}
+#filter-bar {
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #11111190;
+    box-shadow: 0px 0px 30px #00000050;
+    margin-top: 20px;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+}
+
+#filter-bar p {
+    color: white
+}
+
+.filter-buttons{
+    filter: contrast(0%);
+}
+
+.active {
+    filter: contrast(100%);
+}
+
+.beforeSelectingFilter{
+    filter: grayscale(100%)
+}
+
+.filterByAttribute {
+    filter: grayscale(0%);
+}
+
+
+
+
 #hero-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 15px auto;
 
 }
 .hero-image {
+    display: flex;
+    align-items: flex-end;
     width: 256px;
     height: 144px;
+    padding: 5px 5px 5px 5px;
+    background-repeat: no-repeat;
+    background-size: 95%;
+    cursor: pointer;
 }
 
-.hero-image img {
-    width: 95%;
+.hero-image:hover {
+    transform: scale(1.2);
+    box-shadow: 3px 3px 8px #000;
+    background-size: 110%;
+    filter: saturate(1);
+    z-index: 3;
+}
+
+.hero-name {
+    /* display: flex;
+    align-items: center;
+    align-items: space-around; */
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transition-property: opacity,bottom;
+    transition-timing-function: ease-out;
+    transition-duration: .2s;
+    z-index: 3;
+    opacity: 0;
+}
+
+.hero-image:hover .hero-name {
+    opacity: 1;
+    bottom: 0px;
+}
+
+.hero-name img {
+    width: 35px;
+    height: 35px;
+    margin-left: 0.25em;
+}
+
+.hero-name h4{
+    color: white;
+    font-size: 20px;
+    margin-bottom: 1.25em;
+    margin-left: 0.25em
 }
