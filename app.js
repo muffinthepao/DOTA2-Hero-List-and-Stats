@@ -118,6 +118,7 @@ class Game {
 
         // const push = document.querySelector("#hero-list");
         heroesList.innerHTML = "";
+        searchByTextInput.value = "";
 
         if (id === "strFilter") {
             console.log("clicked on strength");
@@ -125,7 +126,6 @@ class Game {
                 (x) => x.primaryAttri === "str"
             );
             this.display();
-            searchByTextInput.value = "";
             // element.classList.toggle("active")
         }
 
@@ -135,7 +135,6 @@ class Game {
                 (x) => x.primaryAttri === "agi"
             );
             this.display();
-            searchByTextInput.value = "";
             // element.classList.toggle("active")
         }
 
@@ -145,7 +144,6 @@ class Game {
                 (x) => x.primaryAttri === "int"
             );
             this.display();
-            searchByTextInput.value = "";
             // element.classList.toggle("active")
         }
 
@@ -162,6 +160,12 @@ class Game {
             x.heroName.toLowerCase().includes(allLowerCase)
         );
         this.display();
+
+        if (this.heroesToDisplay.length === 0) {
+            document.getElementById("null-state").style.display = "flex"
+        } else {
+            document.getElementById("null-state").style.display = "none"
+        }
 
         // for (let i = 0; i < x.length; i++) {
         //     if(!x[i].heroName.toLowerCase().includes(allLowerCase)) {

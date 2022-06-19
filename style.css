@@ -94,7 +94,7 @@ header .logo {
 
 .search-bar form input {
     height: 30px;
-    width: 100%;
+    max-width: 100%;
     border: 0px solid transparent;
     background-color: #25282a;
     outline: none;
@@ -127,7 +127,7 @@ header .logo {
 }
 
 .hero-image:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
     box-shadow: 3px 3px 8px #000;
     background-size: 110%;
     filter: saturate(1);
@@ -169,4 +169,15 @@ header .logo {
     font-size: 20px;
     margin-bottom: 1.25em;
     margin-left: 0.25em
+}
+
+#null-state {
+    font-size: large;
+    color: white;
+    display: none;
+    justify-content: center;
+}
+
+#null-state img {
+    width: 20%;
 }
