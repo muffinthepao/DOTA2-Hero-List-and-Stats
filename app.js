@@ -3,11 +3,14 @@
 const url = "https://api.opendota.com/api/heroStats";
 const imgUrl = "https://api.opendota.com";
 
+const heroesList = document.querySelector("#hero-list");
+
 const strAttributeImg = "./attribute-images/strength.png";
 const agiAttributeImg = "./attribute-images/agility.png";
 const intAttributeImg = "./attribute-images/intelligence.png";
 
 const filteredBy = document.querySelector("#filter-bar");
+const searchByTextInput = document.getElementById("search-input");
 
 //get list of heroes from API
 const data = async function getListOfHeroes(url) {
@@ -63,12 +66,12 @@ class Hero {
 class Game {
     //list of heroes [Hero, Hero, Hero, Hero]
     constructor(heroes) {
-
         //source of truth for all heroes
-        this.arrayOfHeroes = heroes
+        this.arrayOfHeroes = heroes;
         //
-        this.heroesToDisplay = heroes
+        this.heroesToDisplay = heroes;
         this.display();
+        // this.myFunction();
         // this.checker = this.checkIfThereIsOnlyOneAttribute();
     }
 
@@ -76,10 +79,10 @@ class Game {
 
     //display images on index.html
     display() {
-        console.log('displaying')
+        console.log("displaying");
         // console.log(this.heroesToDisplay)
         this.heroesToDisplay.forEach((element) => {
-            console.log('+')
+            console.log("+");
 
             function whichArrtibutePic() {
                 if (element.primaryAttri === "str") {
@@ -94,17 +97,18 @@ class Game {
                     return intAttributeImg;
                 }
             }
-            
-            const push = document.querySelector("#hero-list");
+
             const htmlElements = `
-                <div class="hero-image" style="background-image: url(&quot;${imgUrl}${element.image}&quot)">
-                    <div class="hero-name">
+                <div class="hero-image" style="background-image: url(&quot;${imgUrl}${
+                element.image
+            }&quot)">
+                    <div class="hero-name-display">
                         <img src="${whichArrtibutePic()}"/>
-                        <h4>${element.heroName}</h4>
+                        <h4 class:"hero-name">${element.heroName}</h4>
                     </div>
                 </div>
             `;
-            push.insertAdjacentHTML("beforeend", htmlElements);
+            heroesList.insertAdjacentHTML("beforeend", htmlElements);
         });
     }
 
@@ -112,37 +116,59 @@ class Game {
         // console.log("parent: ", event.target.parentElement);
         // console.log("element: ", event.target);
 
-        const push = document.querySelector("#hero-list");
-        push.innerHTML = ''            
+        // const push = document.querySelector("#hero-list");
+        heroesList.innerHTML = "";
 
-        if (id === "strFilter" && element.classList !== "active") {
-            console.log("clicked on strength")
-            this.heroesToDisplay = this.arrayOfHeroes.filter(x => x.primaryAttri === "str")
-            this.display()
-            element.classList.toggle("active")
-
+        if (id === "strFilter") {
+            console.log("clicked on strength");
+            this.heroesToDisplay = this.arrayOfHeroes.filter(
+                (x) => x.primaryAttri === "str"
+            );
+            this.display();
+            searchByTextInput.value = "";
+            // element.classList.toggle("active")
         }
 
-        if (id === "agiFilter" && element.classList !== "active") {
-            console.log("clicked on agility")
-            this.heroesToDisplay = this.arrayOfHeroes.filter(x => x.primaryAttri === "agi")
-            this.display()
-            element.classList.toggle("active")
+        if (id === "agiFilter") {
+            console.log("clicked on agility");
+            this.heroesToDisplay = this.arrayOfHeroes.filter(
+                (x) => x.primaryAttri === "agi"
+            );
+            this.display();
+            searchByTextInput.value = "";
+            // element.classList.toggle("active")
         }
 
-        if (id === "intFilter" && element.classList !== "active") {
+        if (id === "intFilter") {
             console.log("clicked on intelligence");
-            this.heroesToDisplay = this.arrayOfHeroes.filter(x => x.primaryAttri === "int")
-            this.display()
-            element.classList.toggle("active")
+            this.heroesToDisplay = this.arrayOfHeroes.filter(
+                (x) => x.primaryAttri === "int"
+            );
+            this.display();
+            searchByTextInput.value = "";
+            // element.classList.toggle("active")
         }
 
         return this.display();
-    
-        // };
-       // return heroes
-   }
+    }
 
+    searchByName(value) {
+        heroesList.innerHTML = "";
+        let allLowerCase = value.toLowerCase();
+        let x = this.arrayOfHeroes;
+        let y = document.getElementsByClassName("hero-name");
+
+        this.heroesToDisplay = this.arrayOfHeroes.filter((x) =>
+            x.heroName.toLowerCase().includes(allLowerCase)
+        );
+        this.display();
+
+        // for (let i = 0; i < x.length; i++) {
+        //     if(!x[i].heroName.toLowerCase().includes(allLowerCase)) {
+        //         console.log(x[i].heroName)
+        //     }
+        // }
+    }
 }
 
 async function init() {
@@ -157,9 +183,12 @@ async function init() {
     // console.log(dota3)
 
     filteredBy.onclick = function (event) {
-        Dota2.filterByAttribute(event.target.id, event.target)
-    }
+        Dota2.filterByAttribute(event.target.id, event.target);
+    };
 
+    searchByTextInput.onkeyup = function () {
+        Dota2.searchByName(searchByTextInput.value);
+    };
 }
 
 init();

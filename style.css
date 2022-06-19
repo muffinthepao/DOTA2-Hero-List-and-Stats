@@ -51,7 +51,7 @@ header .logo {
     border-radius: 5px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     border: 1px solid #11111190;
     box-shadow: 0px 0px 30px #00000050;
@@ -71,14 +71,37 @@ header .logo {
     filter: contrast(100%);
 }
 
-.beforeSelectingFilter{
-    filter: grayscale(100%)
+.search-bar {
+    width: 250px;
+    height: 50px;
+    background-color: #25282a;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: space-between;
 }
 
-.filterByAttribute {
-    filter: grayscale(0%);
+.search-bar .search-icon{
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    min-height: 26px;
+    margin-right: 10px;
+    margin-left: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
+.search-bar form input {
+    height: 30px;
+    width: 100%;
+    border: 0px solid transparent;
+    background-color: #25282a;
+    outline: none;
+    color: #fff;
+    font-size: 18px;
+    padding: 4px;
+}
 
 
 
@@ -89,6 +112,7 @@ header .logo {
     align-items: center;
     max-width: 1200px;
     margin: 15px auto;
+    
 
 }
 .hero-image {
@@ -110,7 +134,7 @@ header .logo {
     z-index: 3;
 }
 
-.hero-name {
+.hero-name-display {
     /* display: flex;
     align-items: center;
     align-items: space-around; */
@@ -129,18 +153,18 @@ header .logo {
     opacity: 0;
 }
 
-.hero-image:hover .hero-name {
+.hero-image:hover .hero-name-display {
     opacity: 1;
     bottom: 0px;
 }
 
-.hero-name img {
+.hero-name-display img {
     width: 35px;
     height: 35px;
     margin-left: 0.25em;
 }
 
-.hero-name h4{
+.hero-name-display h4{
     color: white;
     font-size: 20px;
     margin-bottom: 1.25em;
