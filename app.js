@@ -29,6 +29,9 @@ const data = async function getListOfHeroes(url) {
                 hero.base_int,
                 hero.attack_range,
                 hero.move_speed
+                //hero total pics - popularity
+                //hero wins - success rate
+                //
             );
         });
     } catch (ex) {
@@ -63,7 +66,7 @@ class Hero {
     }
 }
 
-class Game {
+class List {
     //list of heroes [Hero, Hero, Hero, Hero]
     constructor(heroes) {
         //source of truth for all heroes
@@ -99,7 +102,7 @@ class Game {
             }
 
             const htmlElements = `
-                <div class="hero-image" style="background-image: url(&quot;${imgUrl}${
+                <div class="hero-image" id="${element.heroName}" style="background-image: url(&quot;${imgUrl}${
                 element.image
             }&quot)">
                     <div class="hero-name-display">
@@ -162,16 +165,60 @@ class Game {
         this.display();
 
         if (this.heroesToDisplay.length === 0) {
-            document.getElementById("null-state").style.display = "flex"
+            document.getElementById("null-state").style.display = "flex";
         } else {
-            document.getElementById("null-state").style.display = "none"
+            document.getElementById("null-state").style.display = "none";
         }
+    }
 
-        // for (let i = 0; i < x.length; i++) {
-        //     if(!x[i].heroName.toLowerCase().includes(allLowerCase)) {
-        //         console.log(x[i].heroName)
-        //     }
-        // }
+    displayHeroStats(event) {
+        console.log("parent: ", event.target.parentElement);
+        console.log("element: ", event.target.id);
+        this.openModal();
+    }
+
+        openModal() {
+        modal.classList.add("active");
+        overlay.classList.add("active");
+    }
+}
+
+function popup() {
+    const openModalButtons = document.querySelectorAll("[data-modal-target]");
+    const closeModalButtons = document.querySelectorAll("[data-close-button]");
+    const overlay = document.getElementById("overlay");
+
+    openModalButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const modal = document.querySelector(button.dataset.modalTarget);
+            openModal(modal);
+        });
+    });
+
+    overlay.addEventListener("click", () => {
+        const modals = document.querySelectorAll(".modal.active");
+        modals.forEach((modal) => {
+            closeModal(modal);
+        });
+    });
+
+    closeModalButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const modal = button.closest(".modal");
+            closeModal(modal);
+        });
+    });
+
+    function openModal(modal) {
+        if (modal == null) return;
+        modal.classList.add("active");
+        overlay.classList.add("active");
+    }
+
+    function closeModal(modal) {
+        if (modal == null) return;
+        modal.classList.remove("active");
+        overlay.classList.remove("active");
     }
 }
 
@@ -181,7 +228,7 @@ async function init() {
     // let filteredHeroes = await strHeroes(url)
 
     // //array of hero instances push into new Dota2 class
-    const Dota2 = new Game(heroes);
+    const Dota2 = new List(heroes);
     console.log("List of heroes: ", Dota2);
     // let dota3 = Dota2.arrayOfHeroes.filter(x=>x.primaryAttri==="str")
     // console.log(dota3)
@@ -193,6 +240,12 @@ async function init() {
     searchByTextInput.onkeyup = function () {
         Dota2.searchByName(searchByTextInput.value);
     };
+
+    heroesList.onclick = function (event) {
+        Dota2.displayHeroStats(event)
+    }
+
+    popup();
 }
 
 init();
