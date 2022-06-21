@@ -9,8 +9,14 @@ const strAttributeImg = "./attribute-images/strength.png";
 const agiAttributeImg = "./attribute-images/agility.png";
 const intAttributeImg = "./attribute-images/intelligence.png";
 
+//to filter heroes
 const filteredBy = document.querySelector("#filter-bar");
 const searchByTextInput = document.getElementById("search-input");
+
+//to display hero stats
+const displayModal = document.querySelector("#modal");
+const overlay = document.getElementById("overlay");
+const closeModalButtons = document.querySelector(".close-button");
 
 //get list of heroes from API
 const data = async function getListOfHeroes(url) {
@@ -28,7 +34,34 @@ const data = async function getListOfHeroes(url) {
                 hero.base_agi,
                 hero.base_int,
                 hero.attack_range,
-                hero.move_speed
+                hero.move_speed,
+                hero.base_health,
+                hero.base_mana,
+                hero.base_attack_min,
+                hero.base_attack_max,
+                hero.str_gain,
+                hero.agi_gain,
+                hero.int_gain,
+                hero.attack_rate,
+                hero.turn_rate,
+                hero.legs,
+                hero["1_pick"],
+                hero["1_win"],
+                hero["2_pick"],
+                hero["2_win"],
+                hero["3_pick"],
+                hero["3_win"],
+                hero["4_pick"],
+                hero["4_win"],
+                hero["5_pick"],
+                hero["5_win"],
+                hero["6_pick"],
+                hero["6_win"],
+                hero["7_pick"],
+                hero["7_win"],
+                hero["8_pick"],
+                hero["8_win"]
+
                 //hero total pics - popularity
                 //hero wins - success rate
                 //
@@ -51,7 +84,33 @@ class Hero {
         baseAgi,
         baseInt,
         attackRange,
-        moveSpeed
+        moveSpeed,
+        baseHealth,
+        baseMana,
+        baseAttackMin,
+        baseAttackMax,
+        strGain,
+        agiGain,
+        intGain,
+        attackRate,
+        turnRate,
+        legs,
+        rankOnePicks,
+        rankOneWins,
+        rankTwoPicks,
+        rankTwoWins,
+        rankThreePicks,
+        rankThreeWins,
+        rankFourPicks,
+        rankFourWins,
+        rankFivePicks,
+        rankFiveWins,
+        rankSixPicks,
+        rankSixWins,
+        rankSevenPicks,
+        rankSevenWins,
+        rankEightPicks,
+        rankEightWins
     ) {
         this.heroName = heroName;
         this.primaryAttri = primaryAttri;
@@ -63,6 +122,52 @@ class Hero {
         this.baseInt = baseInt;
         this.attackRange = attackRange;
         this.moveSpeed = moveSpeed;
+        this.baseHealth = baseHealth;
+        this.baseMana = baseMana;
+        this.baseAttackMin = baseAttackMin;
+        this.baseAttackMax = baseAttackMax;
+        this.strGain = strGain;
+        this.agiGain = agiGain;
+        this.intGain = intGain;
+        this.attackRate = attackRate;
+        this.turnRate = turnRate;
+        this.legs = legs;
+        this.rankOnePicks = rankOnePicks;
+        this.rankOneWins = rankOneWins;
+        this.rankTwoPicks = rankTwoPicks;
+        this.rankTwoWins = rankTwoWins;
+        this.rankThreePicks = rankThreePicks;
+        this.rankThreeWins = rankThreeWins;
+        this.rankFourPicks = rankFourPicks;
+        this.rankFourWins = rankFourWins;
+        this.rankFivePicks = rankFivePicks;
+        this.rankFiveWins = rankFiveWins;
+        this.rankSixPicks = rankSixPicks;
+        this.rankSixWins = rankSixWins;
+        this.rankSevenPicks = rankSevenPicks;
+        this.rankSevenWins = rankSevenWins;
+        this.rankEightPicks = rankEightPicks;
+        this.rankEightWins = rankEightWins;
+        this.totaPicks =
+            rankOnePicks +
+            rankTwoPicks +
+            rankThreePicks +
+            rankFourPicks +
+            rankFivePicks +
+            rankSixPicks +
+            rankSevenPicks +
+            rankEightPicks;
+        this.totalWins =
+            rankOneWins +
+            rankTwoWins +
+            rankThreeWins +
+            rankFourWins +
+            rankFiveWins +
+            rankSixWins +
+            rankSevenWins +
+            rankEightWins;
+        this.trueBaseHealth = baseHealth + baseStr * 20;
+        this.trueBaseMana = baseMana + baseInt * 12;
     }
 }
 
@@ -71,17 +176,15 @@ class List {
     constructor(heroes) {
         //source of truth for all heroes
         this.arrayOfHeroes = heroes;
-        //
+        //variable displaylist
         this.heroesToDisplay = heroes;
-        this.display();
-        // this.myFunction();
-        // this.checker = this.checkIfThereIsOnlyOneAttribute();
+        this.displayListOfHeroes();
     }
 
     //sort array by hero name alphabetically
 
     //display images on index.html
-    display() {
+    displayListOfHeroes() {
         console.log("displaying");
         // console.log(this.heroesToDisplay)
         this.heroesToDisplay.forEach((element) => {
@@ -102,7 +205,9 @@ class List {
             }
 
             const htmlElements = `
-                <div class="hero-image" id="${element.heroName}" style="background-image: url(&quot;${imgUrl}${
+                <div class="hero-image" id="${
+                    element.heroName
+                }" style="background-image: url(&quot;${imgUrl}${
                 element.image
             }&quot)">
                     <div class="hero-name-display">
@@ -116,10 +221,6 @@ class List {
     }
 
     filterByAttribute(id, element) {
-        // console.log("parent: ", event.target.parentElement);
-        // console.log("element: ", event.target);
-
-        // const push = document.querySelector("#hero-list");
         heroesList.innerHTML = "";
         searchByTextInput.value = "";
 
@@ -128,7 +229,7 @@ class List {
             this.heroesToDisplay = this.arrayOfHeroes.filter(
                 (x) => x.primaryAttri === "str"
             );
-            this.display();
+            this.displayListOfHeroes();
             // element.classList.toggle("active")
         }
 
@@ -137,7 +238,7 @@ class List {
             this.heroesToDisplay = this.arrayOfHeroes.filter(
                 (x) => x.primaryAttri === "agi"
             );
-            this.display();
+            this.displayListOfHeroes();
             // element.classList.toggle("active")
         }
 
@@ -146,11 +247,11 @@ class List {
             this.heroesToDisplay = this.arrayOfHeroes.filter(
                 (x) => x.primaryAttri === "int"
             );
-            this.display();
+            this.displayListOfHeroes();
             // element.classList.toggle("active")
         }
 
-        return this.display();
+        return this.displayListOfHeroes();
     }
 
     searchByName(value) {
@@ -162,7 +263,7 @@ class List {
         this.heroesToDisplay = this.arrayOfHeroes.filter((x) =>
             x.heroName.toLowerCase().includes(allLowerCase)
         );
-        this.display();
+        this.displayListOfHeroes();
 
         if (this.heroesToDisplay.length === 0) {
             document.getElementById("null-state").style.display = "flex";
@@ -172,52 +273,126 @@ class List {
     }
 
     displayHeroStats(event) {
-        console.log("parent: ", event.target.parentElement);
-        console.log("element: ", event.target.id);
-        this.openModal();
-    }
+        // console.log("parent: ", event.target.parentElement);
+        // console.log("element: ", event.target.id);
 
-        openModal() {
-        modal.classList.add("active");
+        let selectedHero = this.arrayOfHeroes.filter(
+            (x) => x.heroName === event.target.id
+        );
+
+        if (selectedHero[0].turnRate == null) {
+            selectedHero[0].turnRate = 0.6
+        }
+
+        displayModal.innerHTML = "";
+
+        const heroModal = `
+            <div class="modal-header">
+                <img src=""/>
+                <div class="title">${selectedHero[0].heroName}</div>
+                <button data-close-button class="close-button" id="close-button">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div id="hero-attributes">
+                    <div class="image-health-mana">
+                        <img src="${imgUrl}${selectedHero[0].image}">
+                        <div class="healthbar">
+                            <div class="basehealth">${selectedHero[0].trueBaseHealth}</div>
+                            <div class="health-mana-increase">+3.2</div>
+                        </div>
+
+                        <div class="manabar">
+                            <div class="basemana">${selectedHero[0].trueBaseMana}</div>
+                            <div class="health-mana-increase">+1.2</div>
+                        </div>
+                    
+                    </div>
+
+                    <div class="base-attributes-container">
+
+                        <div class="single-attribute-container">
+                            <img class="attribute-icon" src="./attribute-images/strength.png" />
+                            <div class="attribute-value">${selectedHero[0].baseStr}</div>
+                            <div class="attribute-gain">+${selectedHero[0].strGain}</div>
+                        </div>
+
+                        <div class="single-attribute-container">
+                            <img class="attribute-icon" src="./attribute-images/agility.png" />
+                            <div class="attribute-value">${selectedHero[0].baseAgi}</div>
+                            <div class="attribute-gain">+${selectedHero[0].agiGain}</div>
+                        </div>
+
+                        <div class="single-attribute-container">
+                            <img class="attribute-icon" src="./attribute-images/intelligence.png" />
+                            <div class="attribute-value">${selectedHero[0].baseInt}</div>
+                            <div class="attribute-gain">+${selectedHero[0].intGain}</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            <div class="vertical-separator"></div>
+            
+            <div id="hero-stats">
+                <div class="hero-values-section">
+                    <div class="heroes-values-title">Attack</div>
+                    <div class="heroes-value-element">
+                        <img class="stat-icon" src="./attribute-images/sword-icon.png"/>
+                        ${selectedHero[0].baseAttackMin}-${selectedHero[0].baseAttackMax}
+                    </div>
+                    <div class="heroes-value-element">
+                        <img class="stat-icon" src="./attribute-images/icon_attack_time.png"/>
+                        ${selectedHero[0].attackRate}
+                    </div>
+
+                    <div class="heroes-value-element">
+                        <img class="stat-icon" src="./attribute-images/icon_attack_range.png"/>
+                        ${selectedHero[0].attackRange}
+                    </div>
+
+                </div>
+
+                <div class="hero-values-section">
+                    <div class="heroes-values-title">Defence</div>
+                    <div class="heroes-value-element">
+                        <img class="stat-icon" src="./attribute-images/icon_armor.png"/>
+                        2.6
+                    </div>
+                    <div class="heroes-value-element">
+                        <img class="stat-icon" src="./attribute-images/icon_magic_resist.png"/>
+                        0.6
+                    </div>
+                </div>
+                
+                <div class="hero-values-section">
+                    <div class="heroes-values-title">Movement</div>
+                    <div class="heroes-value-element">
+                        <img class="stat-icon" src="./attribute-images/icon_movement_speed.png"/>
+                        ${selectedHero[0].moveSpeed}
+                    </div>
+                    <div class="heroes-value-element">
+                        <img class="stat-icon" src="./attribute-images/icon_turn_rate.png"/>
+                        ${selectedHero[0].turnRate}
+                    </div>
+
+                    <div class="heroes-value-element">
+                        <img class="stat-icon" src="./attribute-images/icon_vision.png"/>
+                        1800/800
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        `;
+
+        displayModal.innerHTML = heroModal;
+        displayModal.classList.add("active");
         overlay.classList.add("active");
     }
-}
 
-function popup() {
-    const openModalButtons = document.querySelectorAll("[data-modal-target]");
-    const closeModalButtons = document.querySelectorAll("[data-close-button]");
-    const overlay = document.getElementById("overlay");
-
-    openModalButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const modal = document.querySelector(button.dataset.modalTarget);
-            openModal(modal);
-        });
-    });
-
-    overlay.addEventListener("click", () => {
-        const modals = document.querySelectorAll(".modal.active");
-        modals.forEach((modal) => {
-            closeModal(modal);
-        });
-    });
-
-    closeModalButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const modal = button.closest(".modal");
-            closeModal(modal);
-        });
-    });
-
-    function openModal(modal) {
-        if (modal == null) return;
-        modal.classList.add("active");
-        overlay.classList.add("active");
-    }
-
-    function closeModal(modal) {
-        if (modal == null) return;
-        modal.classList.remove("active");
+    closeHeroStats() {
+        displayModal.classList.remove("active");
         overlay.classList.remove("active");
     }
 }
@@ -242,10 +417,17 @@ async function init() {
     };
 
     heroesList.onclick = function (event) {
-        Dota2.displayHeroStats(event)
-    }
+        Dota2.displayHeroStats(event);
+    };
 
-    popup();
+    closeModalButtons.onclick = function (event) {
+        Dota2.closeHeroStats(event);
+    };
+
+    overlay.onclick = function (event) {
+        Dota2.closeHeroStats(event);
+    };
+    // popup();
 }
 
 init();

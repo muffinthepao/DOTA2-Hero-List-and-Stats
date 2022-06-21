@@ -192,7 +192,7 @@ header .logo {
     border: 1px solid black;
     border-radius: 10px;
     z-index: 10;
-    background: rgb(226, 225, 225);
+    background: whitesmoke;
     width: 1200px;
     max-width: 80%;
 }
@@ -225,8 +225,18 @@ header .logo {
 }
 
 .modal-body {
-    padding: 10px 15px;
+    padding: 20px 0px;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
 }
+
+/* @media (max-width: 900px).modal-body {
+    flex-direction: column;
+} */
 
 #overlay {
     position: fixed;
@@ -236,11 +246,190 @@ header .logo {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .8);
+    background-color: rgba(0, 0, 0, .9);
     pointer-events: none;
 }
 
 #overlay.active {
     opacity: 1;
     pointer-events: all;
+}
+
+#hero-attributes {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.image-health-mana {
+    width: 150px;
+    height: 135px;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.image-health-mana img{
+    width: 150px;
+    height: 84px;
+}
+
+.healthbar {
+    width: 150px;
+    height: 22px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: linear-gradient(to right, #286323, #7AF03C);
+    position: relative;
+}
+
+.basehealth {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    text-shadow: 1px 1px 2px #000;
+    font-weight: 800;
+}
+
+.healthbar .health-increase {
+    color: #286323;
+    flex-grow: 1;
+    text-align: right;
+    font-size: 11px;
+    padding-right: 16px;
+    font-weight: bold;
+}
+
+.manabar {
+    width: 150px;
+    height: 22px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: linear-gradient(to right, #1056DB, #73F5FE);
+    position: relative;
+}
+
+.basemana {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    text-shadow: 1px 1px 2px #000;
+    font-weight: 800;
+}
+
+.health-mana-increase {
+    color: #286323;
+    flex-grow: 1;
+    text-align: right;
+    font-size: 11px;
+    padding-right: 16px;
+    font-weight: bold;
+}
+
+#base-attributes-container {
+    width: 100px;
+    height: 120px;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.single-attribute-container {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 4px 0px;
+}
+
+.attribute-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.attribute-value {
+    color: rgb(0, 0, 0);
+    font-family: Reaver,serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 12px;
+}
+
+.attribute-gain {
+    color: #999;
+    font-size: 15px;
+    /* text-shadow: 1px 1px 2px #000; */
+    margin-left: 8px;
+    flex-grow: 1;
+    text-align: right;
+}
+
+#vertical-separator {
+    width: 1px;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#vertical-separator:after {
+    content: "";
+    width: 100%;
+    height: 80%;
+    background-color: #4f4f4f;
+
+    
+}
+
+#hero-stats {
+    width: 90%;
+    min-width: 400px;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.hero-values-section {
+    width: 30%;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.heroes-values-title {
+    margin-left: 8px;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #969696;
+    margin-bottom: 4px;
+}
+
+.heroes-value-element {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 16px;
+    text-align: left;
+}
+
+.stat-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
 }
