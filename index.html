@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./style.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>List of DOTA Heroes</title>
 </head>
 <body>
@@ -13,14 +14,20 @@
         <div>
             <ul class="nav-buttons">
                 <li>Heroes</li>
-                <li>Trivia Gamer</li>
+                <li>Heroes Charts</li>
             </ul>
         </div>
 
     </header>
+    <main>
+        <div>
+            <canvas id="charts"></canvas>
+        </div>
+    </main>
 
+    <main id="heroes-list-container">
     <div class="modal" id="modal">
-        <div class="modal-header">
+        <!-- <div class="modal-header">
             <img src="./attribute-images/strength.png"/>
             <div class="title">Abaddon</div>
             <button data-close-button class="close-button" id="close-button">&times;</button>
@@ -114,7 +121,7 @@
 
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div id="overlay"></div>
@@ -125,9 +132,9 @@
             <p>Filter by attributes:</p>
             <div>
                 <!-- <h3>Filter by Attribute</h3> -->
-                <img id="strFilter" class="filter-buttons" src="./attribute-images/strength.png"/>
-                <img id="agiFilter" class="filter-buttons" src="./attribute-images/agility.png"/>
-                <img id="intFilter" class="filter-buttons" src="./attribute-images/intelligence.png"/>
+                <img id="str" class="filter-buttons" src="./attribute-images/strength.png"/>
+                <img id="agi" class="filter-buttons" src="./attribute-images/agility.png"/>
+                <img id="int" class="filter-buttons" src="./attribute-images/intelligence.png"/>
             </div>
 
             <div class="search-bar">
@@ -141,7 +148,8 @@
         </div>
     </section>
 
-    <main id="hero-list"></main>
+    <div id="hero-list" class="hero-list"></div>
+    </main>
     <div id="null-state">
         <img src="./attribute-images/null-state.png"/>
         <h3>There is nothing that matches your search</h3>

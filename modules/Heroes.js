@@ -12,9 +12,6 @@ const intAttributeImg = "./attribute-images/intelligence.png";
 //to filter heroes
 const filteredBy = document.querySelector("#filter-bar");
 const searchByTextInput = document.getElementById("search-input");
-const strFilterButton = document.getElementById("str");
-const agiFilterButton = document.getElementById("agi");
-const intFilterButton = document.getElementById("int");
 
 //to display hero stats
 const displayModal = document.querySelector("#modal");
@@ -150,22 +147,8 @@ class Hero {
         this.rankSevenWins = rankSevenWins;
         this.rankEightPicks = rankEightPicks;
         this.rankEightWins = rankEightWins;
-        this.rankOneSuccess =
-            ((rankOneWins / rankOnePicks) * 100).toFixed(2) + "%";
-        this.rankTwoSuccess =
-            ((rankTwoWins / rankTwoPicks) * 100).toFixed(2) + "%";
-        this.rankThreeSuccess =
-            ((rankThreeWins / rankThreePicks) * 100).toFixed(2) + "%";
-        this.rankFourSuccess =
-            ((rankFourWins / rankFourPicks) * 100).toFixed(2) + "%";
-        this.rankFiveSuccess =
-            ((rankFiveWins / rankFivePicks) * 100).toFixed(2) + "%";
-        this.rankSixSuccess =
-            ((rankSixWins / rankSixPicks) * 100).toFixed(2) + "%";
-        this.rankSevenSuccess =
-            ((rankSevenWins / rankSevenPicks) * 100).toFixed(2) + "%";
-        this.rankEightSuccess =
-            ((rankEightWins / rankEightPicks) * 100).toFixed(2) + "%";
+        this.rankOneSuccess = ((rankOneWins / rankOnePicks) * 100).toFixed(2) + "%";
+        this.rankTwoSuccess = ((rankTwoWins / rankTwoPicks) * 100).toFixed(2) + "%";
         this.totaPicks =
             rankOnePicks +
             rankTwoPicks +
@@ -199,28 +182,24 @@ class Heroes {
         //variable displaylist
         this.heroesToDisplay = heroes;
         this.displayListOfHeroes();
-        this.filterStrengthHeroes = false;
-        this.filterAgilityHeroes = false;
-        this.filterIntelHeroes = false;
+        this.showStrHeroes = true;
+        this.showAgiHeroes = true;
+        this.showIntHeroes = true;
     }
 
     //sort array by hero name alphabetically
-    sortHeroesAlphabetically(x, y) {
-        if (x.heroName < y.heroName) {
-            return -1;
-        }
-        if (x.heroName > y.heroName) {
-            return 1;
-        }
-        return 0;
+    sortHeroesAlphabetically(x,y){
+        if (x.heroName < y.heroName ) {return -1}
+        if (x.heroName > y.heroName ) {return 1}
+        return 0
     }
 
     //display images on index.html
     displayListOfHeroes() {
-        // console.log("displaying");
+        console.log("displaying");
         // console.log(this.heroesToDisplay)
         this.heroesToDisplay.forEach((element) => {
-            // console.log("+");
+            console.log("+");
 
             function whichArrtibutePic() {
                 if (element.primaryAttri === "str") {
@@ -256,48 +235,39 @@ class Heroes {
         heroesList.innerHTML = "";
         searchByTextInput.value = "";
 
-        if (id === "str") {
-            this.filterStrengthHeroes = !this.filterStrengthHeroes;
-        }
-
-        if (id === "agi") {
-            this.filterAgilityHeroes = !this.filterAgilityHeroes;
-        }
-
-        if (id === "int") {
-            this.filterIntelHeroes = !this.filterIntelHeroes;
-        }
-
-        const attributesOfHeroesToShow = [];
-        if (this.filterStrengthHeroes) {
-            attributesOfHeroesToShow.push("str");
-        }
-        if (this.filterAgilityHeroes) {
-            attributesOfHeroesToShow.push("agi");
-        }
-        if (this.filterIntelHeroes) {
-            attributesOfHeroesToShow.push("int");
-        }
-
-        const isAllFiltersUnchecked =
-            !this.filterStrengthHeroes &&
-            !this.filterAgilityHeroes &&
-            !this.filterIntelHeroes;
-
-        if (isAllFiltersUnchecked) {
-            this.heroesToDisplay = this.arrayOfHeroes;
-        } else {
-            this.heroesToDisplay = this.arrayOfHeroes.filter((hero) =>
-                attributesOfHeroesToShow.includes(hero.primaryAttri)
+        if (id === "strFilter") {
+            console.log("clicked on strength");
+            this.heroesToDisplay = this.arrayOfHeroes.filter(
+                (x) => x.primaryAttri === "str"
             );
+            this.displayListOfHeroes();
+            // element.classList.toggle("active")
         }
 
-        this.displayListOfHeroes();
-    }
+        if (id === "agiFilter") {
+            console.log("clicked on agility");
+            this.heroesToDisplay = this.arrayOfHeroes.filter(
+                (x) => x.primaryAttri === "agi"
+            );
+            this.displayListOfHeroes();
+            // element.classList.toggle("active")
+        }
 
-    //if (element.data.selected == true) show all heroes
-    //else run filter
-    //look at data attributes doc
+        if (id === "intFilter") {
+            console.log("clicked on intelligence");
+            this.heroesToDisplay = this.arrayOfHeroes.filter(
+                (x) => x.primaryAttri === "int"
+            );
+            this.displayListOfHeroes();
+            // element.classList.toggle("active")
+        }
+
+        return this.displayListOfHeroes();
+
+        //if (element.data.selected == true) show all heroes
+        //else run filter
+        //look at data attributes doc
+    }
 
     searchByName(value) {
         heroesList.innerHTML = "";
@@ -447,11 +417,9 @@ class Heroes {
     }
 }
 
-
 function displayChart() {
-    console.log('')
     const labels = ["January", "February", "March", "April", "May", "June"];
-    
+
     const data = {
         labels: labels,
         datasets: [
@@ -463,36 +431,14 @@ function displayChart() {
             },
         ],
     };
+
     const config = {
         type: "line",
         data: data,
         options: {},
     };
 
-    //   const data = {
-    //     datasets: [{
-    //       label: 'First Dataset',
-    //       data: [{
-    //         x: 20,
-    //         y: 30,
-    //         r: 15
-    //       }, {
-    //         x: 40,
-    //         y: 10,
-    //         r: 10
-    //       }],
-    //       backgroundColor: 'rgb(255, 99, 132)'
-    //     }]
-    //   };
-
-    //   const config = {
-    //     type: 'bubble',
-    //     data: data,
-    //     options: {}
-    //   };
-
-    
-
+    const myChart = new Chart(document.getElementById("charts"), config);
 }
 
 async function init() {
@@ -506,10 +452,6 @@ async function init() {
     filteredBy.onclick = function (event) {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
     };
-
-    // filteredBy.onclick = function (event) {
-    //     dota2Heroes.filterbyStr(event.target.id, event.target);
-    // };
 
     searchByTextInput.onkeyup = function () {
         dota2Heroes.searchByName(searchByTextInput.value);

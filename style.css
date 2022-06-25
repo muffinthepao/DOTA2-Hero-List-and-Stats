@@ -68,7 +68,7 @@ header .logo {
     cursor: pointer;
 }
 
-.active {
+.filter-buttons.active {
     filter: contrast(100%);
 }
 
@@ -106,16 +106,15 @@ header .logo {
 
 
 
-#hero-list {
+#hero-list{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     max-width: 1200px;
     margin: 15px auto;
-    
-
 }
+
 .hero-image {
     display: flex;
     align-items: flex-end;
@@ -149,7 +148,7 @@ header .logo {
     align-items: center;
     transition-property: opacity,bottom;
     transition-timing-function: ease-out;
-    transition-duration: .2s;
+    transition-duration: .3s;
     z-index: 3;
     opacity: 0;
 }
@@ -433,3 +432,7 @@ header .logo {
     height: 24px;
     margin-right: 8px;
 }
+
+#charts {
+    padding: 80px
+ }
