@@ -459,25 +459,50 @@ class Heroes {
     }
 }
 
-function displayChart(heroPickAndWindRates) {
+function displayChart(heroPickAndWinRates) {
     console.log("displaying chart");
+
+    console.log("heroPickAndWinRates: ", heroPickAndWinRates);
+    const strHeroes = [];
+    const agiHeroes = [];
+    const intHeroes = [];
+
+    heroPickAndWinRates.forEach((hero) => {
+        if (hero.primaryAttri === "str") {
+            strHeroes.push(hero);
+        }
+
+        if (hero.primaryAttri === "agi") {
+            agiHeroes.push(hero);
+        }
+
+        if (hero.primaryAttri === "int") {
+            intHeroes.push(hero);
+        }
+    });
 
     const data = {
         datasets: [
             {
-                label: "Scatter Dataset",
-                // data:
-                // [
-                // {x: -10, y: 0},
-                // {x: 0,y: 10},
-                // {x: 10,y: 5},
-                // {x: 0.5,y: 5.5}
-                // ],
-
-                data: heroPickAndWindRates,
+                label: "Strength",
+                data: strHeroes,
                 pointRadius: 5,
                 hoverRadius: 7,
-                backgroundColor: "rgb(255, 99, 132)",
+                backgroundColor: "rgb(236,61,6)",
+            },
+            {
+                label: "Agility",
+                data: agiHeroes,
+                pointRadius: 5,
+                hoverRadius: 7,
+                backgroundColor: "rgb(60,224,48)",
+            },
+            {
+                label: "Intel",
+                data: intHeroes,
+                pointRadius: 5,
+                hoverRadius: 7,
+                backgroundColor: "rgb(57,217,236)",
             },
         ],
     };
@@ -487,39 +512,60 @@ function displayChart(heroPickAndWindRates) {
         data: data,
         options: {
             plugins: {
+                legend: {
+                    labels: {
+                        font: {
+                            size: 20,
+                        },
+                        usePointStyle: true,
+                        color: "white",
+                        padding: 30,
+
+                    },
+
+                },
                 tooltip: {
                     callbacks: {
-                        title: function(context) {
-                            return context[0].raw.Name
+                        title: function (context) {
+                            return context[0].raw.Name;
                         },
-                        // body: function(context) {
-                        //     return `Win %-age: ${context[0].raw.y}`;
-                        // },
-                        footer: function(context) {
+                        footer: function (context) {
                             return `Win %-age: ${context[0].raw.y}%`;
                         },
-                        afterFooter: function(context) {
+                        afterFooter: function (context) {
                             return `Total Picks: ${context[0].raw.x}`;
-                        }
-
-
-                    }
-                }
+                        },
+                    },
+                },
             },
             scales: {
                 x: {
                     type: "linear",
                     position: "bottom",
+                    ticks: {
+                        color: "white",
+                    },
+                    grid: {
+                        color: "rgb(150, 150, 150)",
+                    },
+                },
+                y: {
+                    ticks: {
+                        callback: function (value, index, ticks) {
+                            return value + "%";
+                        },
+                        color: "white",
+                    },
+                    grid: {
+                        color: "rgb(150, 150, 150)",
+                    },
                 },
             },
         },
     };
 
-    console.log(data);
-
     new Chart(document.getElementById("charts"), config);
 }
-function chartPointColourBasedOnAttribute() {}
 
 async function init() {
     // function create instances of hero(s)
@@ -530,16 +576,17 @@ async function init() {
     const dota2Heroes = new Heroes(heroes);
 
     //filter hero elements into [{x: hero[0].totalPicks, y:hero[0].totalWins}, ...]
-    let heroPickAndWindRates = [];
+    let heroPickAndWinRates = [];
 
     dota2Heroes.arrayOfHeroes.forEach((hero) => {
-        heroPickAndWindRates.push({
+        heroPickAndWinRates.push({
             x: hero.totalPicks,
             y: hero.totalSuccess,
             Name: hero.heroName,
+            primaryAttri: hero.primaryAttri,
         });
     });
-    console.log(heroPickAndWindRates);
+    console.log(heroPickAndWinRates);
 
     filteredBy.onclick = function (event) {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
@@ -562,7 +609,7 @@ async function init() {
         console.log("clicked to close modal");
     };
 
-    displayChart(heroPickAndWindRates);
+    displayChart(heroPickAndWinRates);
 }
 
 init();

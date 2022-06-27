@@ -99,7 +99,7 @@ header .logo {
     border: 0px solid transparent;
     background-color: #25282a;
     outline: none;
-    color: #fff;
+    color: rgb(215, 215, 215);
     font-size: 18px;
     padding: 4px;
 }
