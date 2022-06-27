@@ -150,22 +150,27 @@ class Hero {
         this.rankSevenWins = rankSevenWins;
         this.rankEightPicks = rankEightPicks;
         this.rankEightWins = rankEightWins;
-        this.rankOneSuccess =
-            ((rankOneWins / rankOnePicks) * 100).toFixed(2);
-        this.rankTwoSuccess =
-            ((rankTwoWins / rankTwoPicks) * 100).toFixed(2);
-        this.rankThreeSuccess =
-            ((rankThreeWins / rankThreePicks) * 100).toFixed(2);
-        this.rankFourSuccess =
-            ((rankFourWins / rankFourPicks) * 100).toFixed(2);
-        this.rankFiveSuccess =
-            ((rankFiveWins / rankFivePicks) * 100).toFixed(2);
-        this.rankSixSuccess =
-            ((rankSixWins / rankSixPicks) * 100).toFixed(2);
-        this.rankSevenSuccess =
-            ((rankSevenWins / rankSevenPicks) * 100).toFixed(2);
-        this.rankEightSuccess =
-            ((rankEightWins / rankEightPicks) * 100).toFixed(2);
+        this.rankOneSuccess = ((rankOneWins / rankOnePicks) * 100).toFixed(2);
+        this.rankTwoSuccess = ((rankTwoWins / rankTwoPicks) * 100).toFixed(2);
+        this.rankThreeSuccess = (
+            (rankThreeWins / rankThreePicks) *
+            100
+        ).toFixed(2);
+        this.rankFourSuccess = ((rankFourWins / rankFourPicks) * 100).toFixed(
+            2
+        );
+        this.rankFiveSuccess = ((rankFiveWins / rankFivePicks) * 100).toFixed(
+            2
+        );
+        this.rankSixSuccess = ((rankSixWins / rankSixPicks) * 100).toFixed(2);
+        this.rankSevenSuccess = (
+            (rankSevenWins / rankSevenPicks) *
+            100
+        ).toFixed(2);
+        this.rankEightSuccess = (
+            (rankEightWins / rankEightPicks) *
+            100
+        ).toFixed(2);
         this.totalPicks =
             rankOnePicks +
             rankTwoPicks +
@@ -184,8 +189,9 @@ class Hero {
             rankSixWins +
             rankSevenWins +
             rankEightWins;
-        this.totalSuccess =
-            ((this.totalWins / this.totalPicks) * 100).toFixed(2);
+        this.totalSuccess = ((this.totalWins / this.totalPicks) * 100).toFixed(
+            2
+        );
         this.trueBaseHealth = baseHealth + baseStr * 20;
         this.trueBaseMana = baseMana + baseInt * 12;
     }
@@ -258,31 +264,31 @@ class Heroes {
 
         if (id === "str") {
             this.filterStrengthHeroes = !this.filterStrengthHeroes;
-            strFilterButton.classList.remove("active")
+            strFilterButton.classList.remove("active");
         }
 
         if (id === "agi") {
             this.filterAgilityHeroes = !this.filterAgilityHeroes;
-            agiFilterButton.classList.remove("active")
+            agiFilterButton.classList.remove("active");
         }
 
         if (id === "int") {
             this.filterIntelHeroes = !this.filterIntelHeroes;
-            intFilterButton.classList.remove("active")
+            intFilterButton.classList.remove("active");
         }
 
         const attributesOfHeroesToShow = [];
         if (this.filterStrengthHeroes) {
             attributesOfHeroesToShow.push("str");
-            strFilterButton.classList.add("active")
+            strFilterButton.classList.add("active");
         }
         if (this.filterAgilityHeroes) {
             attributesOfHeroesToShow.push("agi");
-            agiFilterButton.classList.add("active")
+            agiFilterButton.classList.add("active");
         }
         if (this.filterIntelHeroes) {
             attributesOfHeroesToShow.push("int");
-            intFilterButton.classList.add("active")
+            intFilterButton.classList.add("active");
         }
 
         const isAllFiltersUnchecked =
@@ -453,67 +459,87 @@ class Heroes {
     }
 }
 
-function displayChart(monkey) {
+function displayChart(heroPickAndWindRates) {
     console.log("displaying chart");
 
     const data = {
-        datasets: [{
-            label: 'Scatter Dataset',
-            // data: 
-            // [
-            // {x: -10, y: 0}, 
-            // {x: 0,y: 10}, 
-            // {x: 10,y: 5}, 
-            // {x: 0.5,y: 5.5}
-            // ],
+        datasets: [
+            {
+                label: "Scatter Dataset",
+                // data:
+                // [
+                // {x: -10, y: 0},
+                // {x: 0,y: 10},
+                // {x: 10,y: 5},
+                // {x: 0.5,y: 5.5}
+                // ],
 
-        data: monkey,
-        
-          backgroundColor: 'rgb(255, 99, 132)'
-        }],
-      };
+                data: heroPickAndWindRates,
+                pointRadius: 5,
+                hoverRadius: 7,
+                backgroundColor: "rgb(255, 99, 132)",
+            },
+        ],
+    };
 
-      const config = {
-        type: 'scatter',
+    const config = {
+        type: "scatter",
         data: data,
         options: {
-          scales: {
-            x: {
-              type: 'linear',
-              position: 'bottom'
-            }
-          }
-        }
-      };
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].raw.Name
+                        },
+                        // body: function(context) {
+                        //     return `Win %-age: ${context[0].raw.y}`;
+                        // },
+                        footer: function(context) {
+                            return `Win %-age: ${context[0].raw.y}%`;
+                        },
+                        afterFooter: function(context) {
+                            return `Total Picks: ${context[0].raw.x}`;
+                        }
 
-    console.log(data)
+
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    position: "bottom",
+                },
+            },
+        },
+    };
+
+    console.log(data);
 
     new Chart(document.getElementById("charts"), config);
 }
-
+function chartPointColourBasedOnAttribute() {}
 
 async function init() {
     // function create instances of hero(s)
     let heroes = await heroesData(url);
-    console.log(heroes)
- 
+    console.log(heroes);
+
     // //array of hero instances push into new Dota2 class
     const dota2Heroes = new Heroes(heroes);
 
     //filter hero elements into [{x: hero[0].totalPicks, y:hero[0].totalWins}, ...]
-    let monkey = []
-    // let donkey ={}
-    dota2Heroes.arrayOfHeroes.filter(hero => hero.totalPicks === 411713)
-    let haha = dota2Heroes.arrayOfHeroes.filter(hero => hero.totalPicks === 411713)
-    console.log("most successfull hero: ", haha)
+    let heroPickAndWindRates = [];
 
-    dota2Heroes.arrayOfHeroes.forEach(hero => {
-        monkey.push({
+    dota2Heroes.arrayOfHeroes.forEach((hero) => {
+        heroPickAndWindRates.push({
             x: hero.totalPicks,
-            y: hero.totalSuccess
-        })
-    })
-    console.log(monkey)
+            y: hero.totalSuccess,
+            Name: hero.heroName,
+        });
+    });
+    console.log(heroPickAndWindRates);
 
     filteredBy.onclick = function (event) {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
@@ -536,14 +562,7 @@ async function init() {
         console.log("clicked to close modal");
     };
 
-    displayChart(monkey);
-
-   
-    // heroes.forEach(hero => {
-    //     yaxis.push(hero.age)
-    //     xaxis.push(hero.name)
-    // })
-
+    displayChart(heroPickAndWindRates);
 }
 
 init();
