@@ -1,17 +1,22 @@
 // console.log("wow");
 
+//API related urls
 const url = "https://api.opendota.com/api/heroStats";
 const imgUrl = "https://api.opendota.com";
 
-const heroesList = document.querySelector("#hero-list");
+//hero-chart related
+// const filterCharts = document.getElementById("rank")
+// const option = filterCharts.options[filterCharts.selectedIndex].value
 
+//hero-list related
+const heroesList = document.querySelector("#hero-list");
 const strAttributeImg = "./attribute-images/strength.png";
 const agiAttributeImg = "./attribute-images/agility.png";
 const intAttributeImg = "./attribute-images/intelligence.png";
 
-//to filter heroes
-const filteredBy = document.querySelector("#filter-bar");
-const searchByTextInput = document.getElementById("search-input");
+//to filter list of heroes
+const filterByAttribute = document.querySelector("#filter-bar");
+const filterByTextInput = document.getElementById("search-input");
 const strFilterButton = document.getElementById("str");
 const agiFilterButton = document.getElementById("agi");
 const intFilterButton = document.getElementById("int");
@@ -205,6 +210,7 @@ class Heroes {
         //variable displaylist
         this.heroesToDisplay = heroes;
         this.displayListOfHeroes();
+        // this.displayChart();
         this.filterStrengthHeroes = false;
         this.filterAgilityHeroes = false;
         this.filterIntelHeroes = false;
@@ -260,7 +266,7 @@ class Heroes {
 
     filterByAttribute(id) {
         heroesList.innerHTML = "";
-        searchByTextInput.value = "";
+        filterByTextInput.value = "";
 
         if (id === "str") {
             this.filterStrengthHeroes = !this.filterStrengthHeroes;
@@ -281,6 +287,7 @@ class Heroes {
         if (this.filterStrengthHeroes) {
             attributesOfHeroesToShow.push("str");
             strFilterButton.classList.add("active");
+
         }
         if (this.filterAgilityHeroes) {
             attributesOfHeroesToShow.push("agi");
@@ -305,11 +312,8 @@ class Heroes {
         }
 
         this.displayListOfHeroes();
+        // this.displayChart()
     }
-
-    //if (element.data.selected == true) show all heroes
-    //else run filter
-    //look at data attributes doc
 
     searchByName(value) {
         heroesList.innerHTML = "";
@@ -330,9 +334,6 @@ class Heroes {
     }
 
     displayHeroStats(event) {
-        // console.log("parent: ", event.target.parentElement);
-        // console.log("element: ", event.target.id);
-
         let selectedHero = this.arrayOfHeroes.find(
             (x) => x.heroName === event.target.id
         );
@@ -457,52 +458,223 @@ class Heroes {
         overlay.classList.remove("active");
         console.log("haha");
     }
+
+    // displayChart(){
+    //     const heroPickAndWinRates =[]
+    //     this.heroesToDisplay.forEach((hero) => {
+    //         heroPickAndWinRates.push({
+    //             x: hero.totalPicks,
+    //             y: hero.totalSuccess,
+    //             Name: hero.heroName,
+    //             primaryAttri: hero.primaryAttri,
+    //         });
+    //     });
+
+    //     const data = {
+    //         datasets: [
+    //                         {
+    //                 label: "All Heroes",
+    //                 data: heroPickAndWinRates,
+    //                 pointRadius: 5,
+    //                 hoverRadius: 7,
+    //                 backgroundColor:"rgb(57,217,236)",
+    //             },
+    //         ],
+    //     };
+
+    //     const config = {
+    //         type: "scatter",
+    //         data: data,
+    //         options: {
+    //             plugins: {
+    //                 legend: {
+    //                     labels: {
+    //                         font: {
+    //                             size: 20,
+    //                         },
+    //                         usePointStyle: true,
+    //                         color: "white",
+    //                         padding: 30,
+
+    //                     },
+
+    //                 },
+    //                 tooltip: {
+    //                     callbacks: {
+    //                         title: function (context) {
+    //                             return context[0].raw.Name;
+    //                         },
+    //                         footer: function (context) {
+    //                             return `Win %-age: ${context[0].raw.y}%`;
+    //                         },
+    //                         afterFooter: function (context) {
+    //                             return `Total Picks: ${context[0].raw.x}`;
+    //                         },
+    //                     },
+    //                 },
+    //             },
+    //             scales: {
+    //                 x: {
+    //                     type: "linear",
+    //                     position: "bottom",
+    //                     ticks: {
+    //                         color: "white",
+    //                     },
+    //                     grid: {
+    //                         color: "rgb(150, 150, 150)",
+    //                     },
+    //                 },
+    //                 y: {
+    //                     ticks: {
+    //                         callback: function (value, index, ticks) {
+    //                             return value + "%";
+    //                         },
+    //                         color: "white",
+    //                     },
+    //                     grid: {
+    //                         color: "rgb(150, 150, 150)",
+    //                     },
+    //                 },
+    //             },
+    //         },
+    //     };
+
+    //     new Chart(document.getElementById("charts"), config);
+    // }
 }
 
-function displayChart(heroPickAndWinRates) {
-    console.log("displaying chart");
+// function displayChart(heroPickAndWinRates) {
+//     const allHeroes = [];
 
-    console.log("heroPickAndWinRates: ", heroPickAndWinRates);
-    const strHeroes = [];
-    const agiHeroes = [];
-    const intHeroes = [];
+//     const data = {
+//         datasets: [
+//             {
+//                 label: "All Heroes",
+//                 data: heroPickAndWinRates,
+//                 pointRadius: 5,
+//                 hoverRadius: 7,
+//                 backgroundColor: "rgb(57,217,236)",
+//             },
+//         ],
+//     };
 
-    heroPickAndWinRates.forEach((hero) => {
-        if (hero.primaryAttri === "str") {
-            strHeroes.push(hero);
-        }
+//     const config = {
+//         type: "scatter",
+//         data: data,
+//         options: {
+//             plugins: {
+//                 legend: {
+//                     labels: {
+//                         font: {
+//                             size: 20,
+//                         },
+//                         usePointStyle: true,
+//                         color: "white",
+//                         padding: 30,
+//                     },
+//                 },
+//                 tooltip: {
+//                     callbacks: {
+//                         title: function (context) {
+//                             return context[0].raw.Name;
+//                         },
+//                         footer: function (context) {
+//                             return `Win %-age: ${context[0].raw.y}%`;
+//                         },
+//                         afterFooter: function (context) {
+//                             return `Total Picks: ${context[0].raw.x}`;
+//                         },
+//                     },
+//                 },
+//             },
+//             scales: {
+//                 x: {
+//                     type: "linear",
+//                     position: "bottom",
+//                     ticks: {
+//                         color: "white",
+//                     },
+//                     grid: {
+//                         color: "rgb(150, 150, 150)",
+//                     },
+//                 },
+//                 y: {
+//                     ticks: {
+//                         callback: function (value, index, ticks) {
+//                             return value + "%";
+//                         },
+//                         color: "white",
+//                     },
+//                     grid: {
+//                         color: "rgb(150, 150, 150)",
+//                     },
+//                 },
+//             },
+//         },
+//     };
 
-        if (hero.primaryAttri === "agi") {
-            agiHeroes.push(hero);
-        }
+//    let myChart = new Chart(document.getElementById("charts"), config);
+// }
 
-        if (hero.primaryAttri === "int") {
-            intHeroes.push(hero);
-        }
+async function init() {
+    // function create instances of hero(s)
+    let heroes = await heroesData(url);
+    // console.log(heroes);
+
+    // //array of hero instances push into new Dota2 class
+    const dota2Heroes = new Heroes(heroes);
+
+    filterByAttribute.onclick = function (event) {
+        dota2Heroes.filterByAttribute(event.target.id, event.target);
+    };
+
+    filterByTextInput.onkeyup = function () {
+        dota2Heroes.searchByName(filterByTextInput.value);
+    };
+
+    heroesList.onclick = function (event) {
+        dota2Heroes.displayHeroStats(event);
+    };
+
+    overlay.onclick = function (event) {
+        dota2Heroes.closeHeroStats(event);
+        console.log("clicked to close modal");
+    };
+
+    //filter hero elements into [{x: hero[0].totalPicks, y:hero[0].totalWins}, ...]
+    const heroPickAndWinRates = [];
+    dota2Heroes.arrayOfHeroes.forEach((hero) => {
+        heroPickAndWinRates.push({
+            x: hero.totalPicks,
+            y: hero.totalSuccess,
+            Name: hero.heroName,
+            primaryAttri: hero.primaryAttri,
+        });
     });
+
+    const chartPointColourBasedOnAttribute =[]
+    heroPickAndWinRates.forEach(hero => {
+        if(hero.primaryAttri === "str") {
+            chartPointColourBasedOnAttribute.push("rgb(236,61,6)")
+        }
+
+        if(hero.primaryAttri === "agi") {
+            chartPointColourBasedOnAttribute.push("rgb(60,224,48)")
+        }
+
+        if(hero.primaryAttri === "int") {
+            chartPointColourBasedOnAttribute.push("rgb(57,217,236")
+        }
+    })
 
     const data = {
         datasets: [
             {
-                label: "Strength",
-                data: strHeroes,
+                label: "All Heroes",
+                data: heroPickAndWinRates,
                 pointRadius: 5,
                 hoverRadius: 7,
-                backgroundColor: "rgb(236,61,6)",
-            },
-            {
-                label: "Agility",
-                data: agiHeroes,
-                pointRadius: 5,
-                hoverRadius: 7,
-                backgroundColor: "rgb(60,224,48)",
-            },
-            {
-                label: "Intel",
-                data: intHeroes,
-                pointRadius: 5,
-                hoverRadius: 7,
-                backgroundColor: "rgb(57,217,236)",
+                backgroundColor: chartPointColourBasedOnAttribute // "rgb(57,217,236)",
             },
         ],
     };
@@ -520,9 +692,7 @@ function displayChart(heroPickAndWinRates) {
                         usePointStyle: true,
                         color: "white",
                         padding: 30,
-
                     },
-
                 },
                 tooltip: {
                     callbacks: {
@@ -564,52 +734,115 @@ function displayChart(heroPickAndWinRates) {
         },
     };
 
-    new Chart(document.getElementById("charts"), config);
-}
+    let myChart = new Chart(document.getElementById("charts"), config);
 
-async function init() {
-    // function create instances of hero(s)
-    let heroes = await heroesData(url);
-    console.log(heroes);
+    const filterCharts = document.getElementById("rank");
+    filterCharts.onchange = function () {
+        let filteredByRank = [];
+        console.log(filterCharts.options[filterCharts.selectedIndex].value);
+        let option = filterCharts.options[filterCharts.selectedIndex].value;
+        if (option === "total") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.totalPicks,
+                    y: hero.totalSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
 
-    // //array of hero instances push into new Dota2 class
-    const dota2Heroes = new Heroes(heroes);
+        if (option === "rankOne") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.rankOnePicks,
+                    y: hero.rankOneSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
 
-    //filter hero elements into [{x: hero[0].totalPicks, y:hero[0].totalWins}, ...]
-    let heroPickAndWinRates = [];
+        if (option === "rankTwo") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.rankTwoPicks,
+                    y: hero.rankTwoSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
 
-    dota2Heroes.arrayOfHeroes.forEach((hero) => {
-        heroPickAndWinRates.push({
-            x: hero.totalPicks,
-            y: hero.totalSuccess,
-            Name: hero.heroName,
-            primaryAttri: hero.primaryAttri,
-        });
-    });
-    console.log(heroPickAndWinRates);
+        if (option === "rankThree") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.rankThreePicks,
+                    y: hero.rankThreeSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
 
-    filteredBy.onclick = function (event) {
-        dota2Heroes.filterByAttribute(event.target.id, event.target);
+        if (option === "rankFour") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.rankFourPicks,
+                    y: hero.rankFourSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
+
+        if (option === "rankFive") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.rankFivePicks,
+                    y: hero.rankFiveSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
+
+        if (option === "rankSix") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.rankSixPicks,
+                    y: hero.rankSixSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
+
+        if (option === "rankSeven") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.rankSevenPicks,
+                    y: hero.rankSevenSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
+
+        if (option === "rankEight") {
+            dota2Heroes.arrayOfHeroes.forEach((hero) => {
+                filteredByRank.push({
+                    x: hero.rankEightPicks,
+                    y: hero.rankEightSuccess,
+                    Name: hero.heroName,
+                    primaryAttri: hero.primaryAttri,
+                });
+            });
+        }
+        myChart.data.datasets[0].data = filteredByRank;
+        myChart.update();
+        console.log(myChart.data.datasets[0].data);
     };
-
-    // filteredBy.onclick = function (event) {
-    //     dota2Heroes.filterbyStr(event.target.id, event.target);
-    // };
-
-    searchByTextInput.onkeyup = function () {
-        dota2Heroes.searchByName(searchByTextInput.value);
-    };
-
-    heroesList.onclick = function (event) {
-        dota2Heroes.displayHeroStats(event);
-    };
-
-    overlay.onclick = function (event) {
-        dota2Heroes.closeHeroStats(event);
-        console.log("clicked to close modal");
-    };
-
-    displayChart(heroPickAndWinRates);
 }
 
 init();

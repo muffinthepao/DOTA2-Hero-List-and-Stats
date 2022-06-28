@@ -44,6 +44,7 @@ header .logo {
     display: flex;
     justify-content: center;
 }
+
 #filter-bar {
     width: 100%;
     max-width: 1200px;
@@ -59,7 +60,7 @@ header .logo {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
 }
 
-#filter-bar p {
+.filter-bar p {
     color: white
 }
 
