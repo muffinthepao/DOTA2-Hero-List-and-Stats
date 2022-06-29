@@ -692,14 +692,6 @@ async function init() {
             plugins: {
                 legend: {
                     display: false,
-                    // labels: {
-                    //     font: {
-                    //         size: 20,
-                    //     },
-                    //     usePointStyle: true,
-                    //     color: "white",
-                    //     padding: 30,
-                    // },
                 },
                 tooltip: {
                     callbacks: {
@@ -717,6 +709,14 @@ async function init() {
             },
             scales: {
                 x: {
+                    title: {
+                        display: true,
+                        text: "Number of Picks",
+                        color: "white",
+                        font: {
+                            size: 20
+                        }
+                    },
                     type: "linear",
                     position: "bottom",
                     ticks: {
@@ -727,6 +727,14 @@ async function init() {
                     },
                 },
                 y: {
+                    title: {
+                        display: true,
+                        text: "Win Rate (Wins/Picks)",
+                        color: "white",
+                        font: {
+                            size: 20
+                        }
+                    },
                     ticks: {
                         callback: function (value, index, ticks) {
                             return value + "%";
