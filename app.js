@@ -316,7 +316,15 @@ class Heroes {
     }
 
     searchByName(value) {
+        this.filterStrengthHeroes = false;
+        this.filterAgilityHeroes = false;
+        this.filterIntelHeroes = false;
+        strFilterButton.classList.remove("active");
+        agiFilterButton.classList.remove("active");
+        intFilterButton.classList.remove("active");
+
         heroesList.innerHTML = "";
+    
         let allLowerCase = value.toLowerCase();
         let x = this.arrayOfHeroes;
         let y = document.getElementsByClassName("hero-name");
