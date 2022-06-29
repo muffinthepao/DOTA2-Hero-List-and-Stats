@@ -16,7 +16,7 @@ const intAttributeImg = "./attribute-images/intelligence.png";
 
 //to filter list of heroes
 const filterByAttribute = document.querySelector("#filter-bar");
-const filterByTextInput = document.getElementById("search-input");
+const searchByTextInput = document.getElementById("search-input");
 const strFilterButton = document.getElementById("str");
 const agiFilterButton = document.getElementById("agi");
 const intFilterButton = document.getElementById("int");
@@ -266,7 +266,7 @@ class Heroes {
 
     filterByAttribute(id) {
         heroesList.innerHTML = "";
-        filterByTextInput.value = "";
+        searchByTextInput.value = "";
 
         if (id === "str") {
             this.filterStrengthHeroes = !this.filterStrengthHeroes;
@@ -287,7 +287,6 @@ class Heroes {
         if (this.filterStrengthHeroes) {
             attributesOfHeroesToShow.push("str");
             strFilterButton.classList.add("active");
-
         }
         if (this.filterAgilityHeroes) {
             attributesOfHeroesToShow.push("agi");
@@ -324,7 +323,7 @@ class Heroes {
         intFilterButton.classList.remove("active");
 
         heroesList.innerHTML = "";
-    
+
         let allLowerCase = value.toLowerCase();
         let x = this.arrayOfHeroes;
         let y = document.getElementsByClassName("hero-name");
@@ -634,8 +633,8 @@ async function init() {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
     };
 
-    filterByTextInput.onkeyup = function () {
-        dota2Heroes.searchByName(filterByTextInput.value);
+    searchByTextInput.onkeyup = function () {
+        dota2Heroes.searchByName(searchByTextInput.value);
     };
 
     heroesList.onclick = function (event) {
@@ -658,20 +657,20 @@ async function init() {
         });
     });
 
-    const chartPointColourBasedOnAttribute =[]
-    heroPickAndWinRates.forEach(hero => {
-        if(hero.primaryAttri === "str") {
-            chartPointColourBasedOnAttribute.push("rgb(236,61,6)")
+    const chartPointColourBasedOnAttribute = [];
+    heroPickAndWinRates.forEach((hero) => {
+        if (hero.primaryAttri === "str") {
+            chartPointColourBasedOnAttribute.push("rgb(236,61,6)");
         }
 
-        if(hero.primaryAttri === "agi") {
-            chartPointColourBasedOnAttribute.push("rgb(60,224,48)")
+        if (hero.primaryAttri === "agi") {
+            chartPointColourBasedOnAttribute.push("rgb(60,224,48)");
         }
 
-        if(hero.primaryAttri === "int") {
-            chartPointColourBasedOnAttribute.push("rgb(57,217,236")
+        if (hero.primaryAttri === "int") {
+            chartPointColourBasedOnAttribute.push("rgb(57,217,236");
         }
-    })
+    });
 
     const data = {
         datasets: [
@@ -680,7 +679,7 @@ async function init() {
                 data: heroPickAndWinRates,
                 pointRadius: 5,
                 hoverRadius: 7,
-                backgroundColor: chartPointColourBasedOnAttribute // "rgb(57,217,236)",
+                backgroundColor: chartPointColourBasedOnAttribute, // "rgb(57,217,236)",
             },
         ],
     };
@@ -689,16 +688,18 @@ async function init() {
         type: "scatter",
         data: data,
         options: {
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: {
-                        font: {
-                            size: 20,
-                        },
-                        usePointStyle: true,
-                        color: "white",
-                        padding: 30,
-                    },
+                    display: false,
+                    // labels: {
+                    //     font: {
+                    //         size: 20,
+                    //     },
+                    //     usePointStyle: true,
+                    //     color: "white",
+                    //     padding: 30,
+                    // },
                 },
                 tooltip: {
                     callbacks: {
@@ -740,7 +741,7 @@ async function init() {
         },
     };
 
-    let myChart = new Chart(document.getElementById("charts"), config);
+    let myChart = new Chart(document.getElementById("chart"), config);
 
     const filterCharts = document.getElementById("rank");
     filterCharts.onchange = function () {

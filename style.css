@@ -430,8 +430,12 @@ header .logo {
         margin: 10px auto;
     }
 }
-#charts {
-    padding: 80px
+#chart-container {
+    height: calc(100vh - 162px);
+ }
+
+ #chart {
+    padding: 20px
  }
 
  select {
