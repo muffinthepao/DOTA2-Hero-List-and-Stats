@@ -748,104 +748,16 @@ async function init() {
         let filteredByRank = [];
         console.log(filterCharts.options[filterCharts.selectedIndex].value);
         let option = filterCharts.options[filterCharts.selectedIndex].value;
-        if (option === "total") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.totalPicks,
-                    y: hero.totalSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
-            });
-        }
 
-        if (option === "rankOne") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.rankOnePicks,
-                    y: hero.rankOneSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
+        dota2Heroes.arrayOfHeroes.forEach((hero) => {
+            filteredByRank.push({
+                x: hero[`${option}Picks`],
+                y: hero[`${option}Success`],
+                Name: hero.heroName,
+                primaryAttri: hero.primaryAttri,
             });
-        }
+        });
 
-        if (option === "rankTwo") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.rankTwoPicks,
-                    y: hero.rankTwoSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
-            });
-        }
-
-        if (option === "rankThree") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.rankThreePicks,
-                    y: hero.rankThreeSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
-            });
-        }
-
-        if (option === "rankFour") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.rankFourPicks,
-                    y: hero.rankFourSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
-            });
-        }
-
-        if (option === "rankFive") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.rankFivePicks,
-                    y: hero.rankFiveSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
-            });
-        }
-
-        if (option === "rankSix") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.rankSixPicks,
-                    y: hero.rankSixSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
-            });
-        }
-
-        if (option === "rankSeven") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.rankSevenPicks,
-                    y: hero.rankSevenSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
-            });
-        }
-
-        if (option === "rankEight") {
-            dota2Heroes.arrayOfHeroes.forEach((hero) => {
-                filteredByRank.push({
-                    x: hero.rankEightPicks,
-                    y: hero.rankEightSuccess,
-                    Name: hero.heroName,
-                    primaryAttri: hero.primaryAttri,
-                });
-            });
-        }
         myChart.data.datasets[0].data = filteredByRank;
         myChart.update();
         console.log(myChart.data.datasets[0].data);
