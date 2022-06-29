@@ -389,8 +389,6 @@ class Heroes {
 
                     </div>
                 </div>
-
-            <div class="vertical-separator"></div>
             
             <div id="hero-stats">
                 <div class="hero-values-section">
