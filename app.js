@@ -5,8 +5,8 @@ const url = "https://api.opendota.com/api/heroStats";
 const imgUrl = "https://api.opendota.com";
 
 //hero-chart related
-const filterCharts = document.getElementById("rank")
-const currentOption = filterCharts.options[filterCharts.selectedIndex].value
+const filterCharts = document.getElementById("rank");
+const currentOption = filterCharts.options[filterCharts.selectedIndex].value;
 
 //hero-list related
 const heroesList = document.querySelector("#hero-list");
@@ -380,12 +380,12 @@ class Heroes {
             this.heroesToDisplay = this.arrayOfHeroes;
         } else {
             this.heroesToDisplay = this.arrayOfHeroes.filter((hero) =>
-            attributesOfHeroesToShowInList.includes(hero.primaryAttri)
+                attributesOfHeroesToShowInList.includes(hero.primaryAttri)
             );
         }
 
         this.displayListOfHeroes();
-        this.updateChartBasedOnAttribute(this.heroesToDisplay, currentOption)
+        this.updateChartBasedOnAttribute(this.heroesToDisplay, currentOption);
     }
 
     searchByName(value) {
@@ -412,6 +412,11 @@ class Heroes {
         } else {
             document.getElementById("null-state").style.display = "none";
         }
+
+        this.updateChartByAttributeOrSearch(
+            this.heroesToDisplay,
+            currentOption
+        );
     }
 
     displayHeroStats(event) {
@@ -580,35 +585,6 @@ class Heroes {
         this.chart.update();
     }
 
-    updateChartBasedOnAttribute(heroesToDisplay, currentOption){
-        let updatedByAttribute = [];
-        let updatedPointColor =[]
-        heroesToDisplay.forEach((hero) => {
-            updatedByAttribute.push({
-                x: hero[`${currentOption}Picks`],
-                y: hero[`${currentOption}Success`],
-                Name: hero.heroName,
-                primaryAttri: hero.primaryAttri,
-            });
-            if (hero.primaryAttri === "str") {
-                updatedPointColor.push("rgb(236,61,6)");
-            }
-    
-            if (hero.primaryAttri === "agi") {
-                updatedPointColor.push("rgb(60,224,48)");
-            }
-    
-            if (hero.primaryAttri === "int") {
-                updatedPointColor.push("rgb(57,217,236");
-            }
-        });
-
-
-        this.chart.data.datasets[0].data = updatedByAttribute;
-        this.chart.data.datasets[0].backgroundColor = updatedPointColor
-        this.chart.update();
-    }
-
     filterChartByRank(option) {
         let filteredByRank = [];
         this.heroesToDisplay.forEach((hero) => {
@@ -623,6 +599,35 @@ class Heroes {
         this.chart.data.datasets[0].data = filteredByRank;
         this.chart.update();
     }
+
+    //this is needed for after you change rank, you want to filter by attributes
+    updateChartByAttributeOrSearch(heroesToDisplay, currentOption) {
+        let updatedByAttribute = [];
+        let updatedPointColor = [];
+        heroesToDisplay.forEach((hero) => {
+            updatedByAttribute.push({
+                x: hero[`${currentOption}Picks`],
+                y: hero[`${currentOption}Success`],
+                Name: hero.heroName,
+                primaryAttri: hero.primaryAttri,
+            });
+            if (hero.primaryAttri === "str") {
+                updatedPointColor.push("rgb(236,61,6)");
+            }
+
+            if (hero.primaryAttri === "agi") {
+                updatedPointColor.push("rgb(60,224,48)");
+            }
+
+            if (hero.primaryAttri === "int") {
+                updatedPointColor.push("rgb(57,217,236");
+            }
+        });
+
+        this.chart.data.datasets[0].data = updatedByAttribute;
+        this.chart.data.datasets[0].backgroundColor = updatedPointColor;
+        this.chart.update();
+    }
 }
 
 async function init() {
@@ -635,7 +640,7 @@ async function init() {
 
     filterByAttribute.onclick = function (event) {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
-        console.log(event.target.id)
+        console.log(event.target.id);
     };
 
     searchByTextInput.onkeyup = function () {
@@ -652,7 +657,7 @@ async function init() {
     };
 
     filterChartByRank.onchange = function (event) {
-        dota2Heroes.filterChartByRank(event.target.value)
+        dota2Heroes.filterChartByRank(event.target.value);
     };
 
     dota2Heroes.initialiseChart();
