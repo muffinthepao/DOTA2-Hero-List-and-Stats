@@ -5,8 +5,8 @@ const url = "https://api.opendota.com/api/heroStats";
 const imgUrl = "https://api.opendota.com";
 
 //hero-chart related
-// const filterCharts = document.getElementById("rank")
-// const option = filterCharts.options[filterCharts.selectedIndex].value
+const filterCharts = document.getElementById("rank")
+const currentOption = filterCharts.options[filterCharts.selectedIndex].value
 
 //hero-list related
 const heroesList = document.querySelector("#hero-list");
@@ -15,7 +15,7 @@ const agiAttributeImg = "./attribute-images/agility.png";
 const intAttributeImg = "./attribute-images/intelligence.png";
 
 //to filter list of heroes
-const filterByAttribute = document.querySelector("#filter-bar");
+const filterByAttribute = document.querySelector("#attribute-filter");
 const searchByTextInput = document.getElementById("search-input");
 const strFilterButton = document.getElementById("str");
 const agiFilterButton = document.getElementById("agi");
@@ -78,6 +78,75 @@ const heroesData = async function getListOfHeroes(url) {
         console.log("ex: ", ex);
     }
 };
+
+//chart.js related constants
+const config = {
+    type: "scatter",
+    // data: data,
+    options: {
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
+            },
+            tooltip: {
+                callbacks: {
+                    title: function (context) {
+                        return context[0].raw.Name;
+                    },
+                    footer: function (context) {
+                        return `Win %-age: ${context[0].raw.y}%`;
+                    },
+                    afterFooter: function (context) {
+                        return `Total Picks: ${context[0].raw.x}`;
+                    },
+                },
+            },
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: "Number of Picks",
+                    color: "white",
+                    font: {
+                        size: 20,
+                    },
+                },
+                type: "linear",
+                position: "bottom",
+                ticks: {
+                    color: "white",
+                },
+                grid: {
+                    color: "rgb(150, 150, 150)",
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: "Win Rate (Wins/Picks)",
+                    color: "white",
+                    font: {
+                        size: 20,
+                    },
+                },
+                ticks: {
+                    callback: function (value, index, ticks) {
+                        return value + "%";
+                    },
+                    color: "white",
+                },
+                grid: {
+                    color: "rgb(150, 150, 150)",
+                },
+            },
+        },
+    },
+};
+
+//const to target drop down list to filter chart
+const filterChartByRank = document.getElementById("rank");
 
 // function to create new hero instances
 class Hero {
@@ -214,6 +283,7 @@ class Heroes {
         this.filterStrengthHeroes = false;
         this.filterAgilityHeroes = false;
         this.filterIntelHeroes = false;
+        this.chart = new Chart(document.getElementById("chart"), config);
     }
 
     //sort array by hero name alphabetically
@@ -283,17 +353,21 @@ class Heroes {
             intFilterButton.classList.remove("active");
         }
 
-        const attributesOfHeroesToShow = [];
+        const attributesOfHeroesToShowInList = [];
+        // const attributesOfHeroesToShowInChart = [];
         if (this.filterStrengthHeroes) {
-            attributesOfHeroesToShow.push("str");
+            attributesOfHeroesToShowInList.push("str");
+            // attributesOfHeroesToShowInChart.push("str");
             strFilterButton.classList.add("active");
         }
         if (this.filterAgilityHeroes) {
-            attributesOfHeroesToShow.push("agi");
+            attributesOfHeroesToShowInList.push("agi");
+            // attributesOfHeroesToShowInChart.push("agi");
             agiFilterButton.classList.add("active");
         }
         if (this.filterIntelHeroes) {
-            attributesOfHeroesToShow.push("int");
+            attributesOfHeroesToShowInList.push("int");
+            // attributesOfHeroesToShowInChart.push("int");
             intFilterButton.classList.add("active");
         }
 
@@ -306,12 +380,12 @@ class Heroes {
             this.heroesToDisplay = this.arrayOfHeroes;
         } else {
             this.heroesToDisplay = this.arrayOfHeroes.filter((hero) =>
-                attributesOfHeroesToShow.includes(hero.primaryAttri)
+            attributesOfHeroesToShowInList.includes(hero.primaryAttri)
             );
         }
 
         this.displayListOfHeroes();
-        // this.displayChart()
+        this.updateChartBasedOnAttribute(this.heroesToDisplay, currentOption)
     }
 
     searchByName(value) {
@@ -464,162 +538,92 @@ class Heroes {
         console.log("haha");
     }
 
-    // displayChart(){
-    //     const heroPickAndWinRates =[]
-    //     this.heroesToDisplay.forEach((hero) => {
-    //         heroPickAndWinRates.push({
-    //             x: hero.totalPicks,
-    //             y: hero.totalSuccess,
-    //             Name: hero.heroName,
-    //             primaryAttri: hero.primaryAttri,
-    //         });
-    //     });
+    initialiseChart() {
+        //filter hero elements into [{x: hero[0].totalPicks, y:hero[0].totalWins}, ...]
+        const heroPickAndWinRates = [];
+        const chartPointColourBasedOnAttribute = [];
 
-    //     const data = {
-    //         datasets: [
-    //                         {
-    //                 label: "All Heroes",
-    //                 data: heroPickAndWinRates,
-    //                 pointRadius: 5,
-    //                 hoverRadius: 7,
-    //                 backgroundColor:"rgb(57,217,236)",
-    //             },
-    //         ],
-    //     };
+        this.heroesToDisplay.forEach((hero) => {
+            heroPickAndWinRates.push({
+                x: hero.totalPicks,
+                y: hero.totalSuccess,
+                Name: hero.heroName,
+                primaryAttri: hero.primaryAttri,
+            });
 
-    //     const config = {
-    //         type: "scatter",
-    //         data: data,
-    //         options: {
-    //             plugins: {
-    //                 legend: {
-    //                     labels: {
-    //                         font: {
-    //                             size: 20,
-    //                         },
-    //                         usePointStyle: true,
-    //                         color: "white",
-    //                         padding: 30,
+            if (hero.primaryAttri === "str") {
+                chartPointColourBasedOnAttribute.push("rgb(236,61,6)");
+            }
 
-    //                     },
+            if (hero.primaryAttri === "agi") {
+                chartPointColourBasedOnAttribute.push("rgb(60,224,48)");
+            }
 
-    //                 },
-    //                 tooltip: {
-    //                     callbacks: {
-    //                         title: function (context) {
-    //                             return context[0].raw.Name;
-    //                         },
-    //                         footer: function (context) {
-    //                             return `Win %-age: ${context[0].raw.y}%`;
-    //                         },
-    //                         afterFooter: function (context) {
-    //                             return `Total Picks: ${context[0].raw.x}`;
-    //                         },
-    //                     },
-    //                 },
-    //             },
-    //             scales: {
-    //                 x: {
-    //                     type: "linear",
-    //                     position: "bottom",
-    //                     ticks: {
-    //                         color: "white",
-    //                     },
-    //                     grid: {
-    //                         color: "rgb(150, 150, 150)",
-    //                     },
-    //                 },
-    //                 y: {
-    //                     ticks: {
-    //                         callback: function (value, index, ticks) {
-    //                             return value + "%";
-    //                         },
-    //                         color: "white",
-    //                     },
-    //                     grid: {
-    //                         color: "rgb(150, 150, 150)",
-    //                     },
-    //                 },
-    //             },
-    //         },
-    //     };
+            if (hero.primaryAttri === "int") {
+                chartPointColourBasedOnAttribute.push("rgb(57,217,236");
+            }
+        });
 
-    //     new Chart(document.getElementById("charts"), config);
-    // }
+        const data = {
+            datasets: [
+                {
+                    label: "All Heroes",
+                    data: heroPickAndWinRates,
+                    pointRadius: 5,
+                    hoverRadius: 7,
+                    backgroundColor: chartPointColourBasedOnAttribute, // "rgb(57,217,236)",
+                },
+            ],
+        };
+
+        this.chart.data = data;
+        this.chart.update();
+    }
+
+    updateChartBasedOnAttribute(heroesToDisplay, currentOption){
+        let updatedByAttribute = [];
+        let updatedPointColor =[]
+        heroesToDisplay.forEach((hero) => {
+            updatedByAttribute.push({
+                x: hero[`${currentOption}Picks`],
+                y: hero[`${currentOption}Success`],
+                Name: hero.heroName,
+                primaryAttri: hero.primaryAttri,
+            });
+            if (hero.primaryAttri === "str") {
+                updatedPointColor.push("rgb(236,61,6)");
+            }
+    
+            if (hero.primaryAttri === "agi") {
+                updatedPointColor.push("rgb(60,224,48)");
+            }
+    
+            if (hero.primaryAttri === "int") {
+                updatedPointColor.push("rgb(57,217,236");
+            }
+        });
+
+
+        this.chart.data.datasets[0].data = updatedByAttribute;
+        this.chart.data.datasets[0].backgroundColor = updatedPointColor
+        this.chart.update();
+    }
+
+    filterChartByRank(option) {
+        let filteredByRank = [];
+        this.heroesToDisplay.forEach((hero) => {
+            filteredByRank.push({
+                x: hero[`${option}Picks`],
+                y: hero[`${option}Success`],
+                Name: hero.heroName,
+                primaryAttri: hero.primaryAttri,
+            });
+        });
+
+        this.chart.data.datasets[0].data = filteredByRank;
+        this.chart.update();
+    }
 }
-
-// function displayChart(heroPickAndWinRates) {
-//     const allHeroes = [];
-
-//     const data = {
-//         datasets: [
-//             {
-//                 label: "All Heroes",
-//                 data: heroPickAndWinRates,
-//                 pointRadius: 5,
-//                 hoverRadius: 7,
-//                 backgroundColor: "rgb(57,217,236)",
-//             },
-//         ],
-//     };
-
-//     const config = {
-//         type: "scatter",
-//         data: data,
-//         options: {
-//             plugins: {
-//                 legend: {
-//                     labels: {
-//                         font: {
-//                             size: 20,
-//                         },
-//                         usePointStyle: true,
-//                         color: "white",
-//                         padding: 30,
-//                     },
-//                 },
-//                 tooltip: {
-//                     callbacks: {
-//                         title: function (context) {
-//                             return context[0].raw.Name;
-//                         },
-//                         footer: function (context) {
-//                             return `Win %-age: ${context[0].raw.y}%`;
-//                         },
-//                         afterFooter: function (context) {
-//                             return `Total Picks: ${context[0].raw.x}`;
-//                         },
-//                     },
-//                 },
-//             },
-//             scales: {
-//                 x: {
-//                     type: "linear",
-//                     position: "bottom",
-//                     ticks: {
-//                         color: "white",
-//                     },
-//                     grid: {
-//                         color: "rgb(150, 150, 150)",
-//                     },
-//                 },
-//                 y: {
-//                     ticks: {
-//                         callback: function (value, index, ticks) {
-//                             return value + "%";
-//                         },
-//                         color: "white",
-//                     },
-//                     grid: {
-//                         color: "rgb(150, 150, 150)",
-//                     },
-//                 },
-//             },
-//         },
-//     };
-
-//    let myChart = new Chart(document.getElementById("charts"), config);
-// }
 
 async function init() {
     // function create instances of hero(s)
@@ -631,6 +635,7 @@ async function init() {
 
     filterByAttribute.onclick = function (event) {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
+        console.log(event.target.id)
     };
 
     searchByTextInput.onkeyup = function () {
@@ -646,130 +651,11 @@ async function init() {
         console.log("clicked to close modal");
     };
 
-    //filter hero elements into [{x: hero[0].totalPicks, y:hero[0].totalWins}, ...]
-    const heroPickAndWinRates = [];
-    dota2Heroes.arrayOfHeroes.forEach((hero) => {
-        heroPickAndWinRates.push({
-            x: hero.totalPicks,
-            y: hero.totalSuccess,
-            Name: hero.heroName,
-            primaryAttri: hero.primaryAttri,
-        });
-    });
-
-    const chartPointColourBasedOnAttribute = [];
-    heroPickAndWinRates.forEach((hero) => {
-        if (hero.primaryAttri === "str") {
-            chartPointColourBasedOnAttribute.push("rgb(236,61,6)");
-        }
-
-        if (hero.primaryAttri === "agi") {
-            chartPointColourBasedOnAttribute.push("rgb(60,224,48)");
-        }
-
-        if (hero.primaryAttri === "int") {
-            chartPointColourBasedOnAttribute.push("rgb(57,217,236");
-        }
-    });
-
-    const data = {
-        datasets: [
-            {
-                label: "All Heroes",
-                data: heroPickAndWinRates,
-                pointRadius: 5,
-                hoverRadius: 7,
-                backgroundColor: chartPointColourBasedOnAttribute, // "rgb(57,217,236)",
-            },
-        ],
+    filterChartByRank.onchange = function (event) {
+        dota2Heroes.filterChartByRank(event.target.value)
     };
 
-    const config = {
-        type: "scatter",
-        data: data,
-        options: {
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    callbacks: {
-                        title: function (context) {
-                            return context[0].raw.Name;
-                        },
-                        footer: function (context) {
-                            return `Win %-age: ${context[0].raw.y}%`;
-                        },
-                        afterFooter: function (context) {
-                            return `Total Picks: ${context[0].raw.x}`;
-                        },
-                    },
-                },
-            },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: "Number of Picks",
-                        color: "white",
-                        font: {
-                            size: 20
-                        }
-                    },
-                    type: "linear",
-                    position: "bottom",
-                    ticks: {
-                        color: "white",
-                    },
-                    grid: {
-                        color: "rgb(150, 150, 150)",
-                    },
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: "Win Rate (Wins/Picks)",
-                        color: "white",
-                        font: {
-                            size: 20
-                        }
-                    },
-                    ticks: {
-                        callback: function (value, index, ticks) {
-                            return value + "%";
-                        },
-                        color: "white",
-                    },
-                    grid: {
-                        color: "rgb(150, 150, 150)",
-                    },
-                },
-            },
-        },
-    };
-
-    let myChart = new Chart(document.getElementById("chart"), config);
-
-    const filterCharts = document.getElementById("rank");
-    filterCharts.onchange = function () {
-        let filteredByRank = [];
-        console.log(filterCharts.options[filterCharts.selectedIndex].value);
-        let option = filterCharts.options[filterCharts.selectedIndex].value;
-
-        dota2Heroes.arrayOfHeroes.forEach((hero) => {
-            filteredByRank.push({
-                x: hero[`${option}Picks`],
-                y: hero[`${option}Success`],
-                Name: hero.heroName,
-                primaryAttri: hero.primaryAttri,
-            });
-        });
-
-        myChart.data.datasets[0].data = filteredByRank;
-        myChart.update();
-        console.log(myChart.data.datasets[0].data);
-    };
+    dota2Heroes.initialiseChart();
 }
 
 init();
