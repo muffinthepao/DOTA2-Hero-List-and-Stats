@@ -644,8 +644,9 @@ class Heroes {
         agiFilterButton.classList.remove("active");
         intFilterButton.classList.remove("active");
         searchByTextInput.value = "";
-        
 
+        filterCharts.selectedIndex = 0
+        
     }
 }
 
@@ -691,7 +692,6 @@ async function init() {
 
         dota2Heroes.resetFilters();
         dota2Heroes.searchByName("");
-        filterCharts.selectedIndex = 0
 
 
     };
@@ -707,7 +707,6 @@ async function init() {
         
         dota2Heroes.resetFilters();
         dota2Heroes.searchByName("");
-        dota2Heroes.updateChartByAttributeOrSearch(dota2Heroes.heroesToDisplay, "total")    
     };
 }
 
