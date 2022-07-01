@@ -2,8 +2,13 @@
 const url = "https://api.opendota.com/api/heroStats";
 const imgUrl = "https://api.opendota.com";
 
+//site navigation related
+const showHeroes = document.getElementById("show-heroes")
+const showChart = document.getElementById("show-chart") 
+
 //hero-chart related
 const filterCharts = document.getElementById("rank");
+const chartContainer = document.getElementById("chart-container")
 const currentOption = filterCharts.options[filterCharts.selectedIndex].value;
 
 //hero-list related
@@ -103,7 +108,7 @@ const config = {
                     },
 
                     footer: function (context) {
-                        return `Win %-age: ${context[0].raw.y}%`;
+                        return `Win Rate: ${context[0].raw.y}%`;
                     },
                     afterFooter: function (context) {
                         return `Total Picks: ${context[0].raw.x}`;
@@ -669,6 +674,23 @@ async function init() {
     };
 
     dota2Heroes.initialiseChart();
+
+    showHeroes.onclick = function () {
+        showHeroes.classList.add("active")
+        showChart.classList.remove("active")
+
+        chartContainer.classList.remove("active")
+        filterChartByRank.classList.remove("active")
+   
+    }
+
+    showChart.onclick = function () {
+        showChart.classList.add("active")
+        showHeroes.classList.remove("active")
+
+        chartContainer.classList.add("active")
+        filterChartByRank.classList.add("active")
+    }
 }
 
 init();
