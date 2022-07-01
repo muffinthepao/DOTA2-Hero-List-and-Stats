@@ -1,5 +1,3 @@
-// console.log("wow");
-
 //API related urls
 const url = "https://api.opendota.com/api/heroStats";
 const imgUrl = "https://api.opendota.com";
@@ -90,10 +88,20 @@ const config = {
                 display: false,
             },
             tooltip: {
+                titleFont:{
+                    size: 18
+                },
+                BodyFont:{
+                    size: 15
+                },
+                footerFont:{
+                    size: 15
+                },
                 callbacks: {
                     title: function (context) {
-                        return context[0].raw.Name;
+                        return `${context[0].raw.Name} (${context[0].raw.primaryAttri.toUpperCase()})`;
                     },
+
                     footer: function (context) {
                         return `Win %-age: ${context[0].raw.y}%`;
                     },
@@ -385,7 +393,7 @@ class Heroes {
         }
 
         this.displayListOfHeroes();
-        this.updateChartBasedOnAttribute(this.heroesToDisplay, currentOption);
+        this.updateChartByAttributeOrSearch(this.heroesToDisplay, currentOption);
     }
 
     searchByName(value) {
