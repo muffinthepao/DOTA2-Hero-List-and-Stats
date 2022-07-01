@@ -30,19 +30,19 @@ Things I've included to practise:
 
 #### Illustrations
 Heroes List on page load
-[!heroes-list](./images/list-of-heroes.png)
+(./images/list-of-heroes.png)
 
 Ability to dynamically filter Heroes List based on attributes (Strength, Agility, Intelligence)
-[!heroes-list](./images/list-of-heroes-multiple-filters.png)
+(./images/list-of-heroes-multiple-filters.png)
 
 Ability to search for Heroes
-[!heroes-list](./images/list-of-heroes-search.png)
+(./images/list-of-heroes-search.png)
 
 Chart of Picks and Win-Rate
-[!heroes-list](./images/list-of-heroes-search.png)
+(./images/list-of-heroes-search.png)
 
 Ability to search for Heroes
-[!heroes-list](./images/DOTA2Charts-Search-AdobeExpress-L.gif)
+(./images/DOTA2Charts-Search-AdobeExpress-L.gif)
 
 #### Learning Challenges
 - Able to create 2 constructor classes with 1 being used in the other
