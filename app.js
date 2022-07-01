@@ -3,19 +3,19 @@ const url = "https://api.opendota.com/api/heroStats";
 const imgUrl = "https://api.opendota.com";
 
 //site navigation related
-const showHeroes = document.getElementById("show-heroes")
-const showChart = document.getElementById("show-chart") 
+const showHeroes = document.getElementById("show-heroes");
+const showChart = document.getElementById("show-chart");
 
 //hero-chart related
 const filterCharts = document.getElementById("rank");
-const chartContainer = document.getElementById("chart-container")
+const chartContainer = document.getElementById("chart-container");
 const currentOption = filterCharts.options[filterCharts.selectedIndex].value;
 
 //hero-list related
 const heroesList = document.querySelector("#hero-list");
-const strAttributeImg = "./attribute-images/strength.png";
-const agiAttributeImg = "./attribute-images/agility.png";
-const intAttributeImg = "./attribute-images/intelligence.png";
+const strAttributeImg = "./images/strength.png";
+const agiAttributeImg = "./images/agility.png";
+const intAttributeImg = "./images/intelligence.png";
 
 //to filter list of heroes
 const filterByAttribute = document.querySelector("#attribute-filter");
@@ -93,18 +93,20 @@ const config = {
                 display: false,
             },
             tooltip: {
-                titleFont:{
-                    size: 18
+                titleFont: {
+                    size: 18,
                 },
-                BodyFont:{
-                    size: 15
+                BodyFont: {
+                    size: 15,
                 },
-                footerFont:{
-                    size: 15
+                footerFont: {
+                    size: 15,
                 },
                 callbacks: {
                     title: function (context) {
-                        return `${context[0].raw.Name} (${context[0].raw.primaryAttri.toUpperCase()})`;
+                        return `${
+                            context[0].raw.Name
+                        } (${context[0].raw.primaryAttri.toUpperCase()})`;
                     },
 
                     footer: function (context) {
@@ -292,7 +294,7 @@ class Heroes {
         //variable displaylist
         this.heroesToDisplay = heroes;
         this.displayListOfHeroes();
-        // this.displayChart();
+        // this.resetHeroesListOnNavChange();
         this.filterStrengthHeroes = false;
         this.filterAgilityHeroes = false;
         this.filterIntelHeroes = false;
@@ -398,7 +400,10 @@ class Heroes {
         }
 
         this.displayListOfHeroes();
-        this.updateChartByAttributeOrSearch(this.heroesToDisplay, currentOption);
+        this.updateChartByAttributeOrSearch(
+            this.heroesToDisplay,
+            currentOption
+        );
     }
 
     searchByName(value) {
@@ -469,19 +474,19 @@ class Heroes {
                     <div class="base-attributes-container">
 
                         <div class="single-attribute-container">
-                            <img class="attribute-icon" src="./attribute-images/strength.png" />
+                            <img class="attribute-icon" src="./images/strength.png" />
                             <div class="attribute-value">${selectedHero.baseStr}</div>
                             <div class="attribute-gain">+${selectedHero.strGain}</div>
                         </div>
 
                         <div class="single-attribute-container">
-                            <img class="attribute-icon" src="./attribute-images/agility.png" />
+                            <img class="attribute-icon" src="./images/agility.png" />
                             <div class="attribute-value">${selectedHero.baseAgi}</div>
                             <div class="attribute-gain">+${selectedHero.agiGain}</div>
                         </div>
 
                         <div class="single-attribute-container">
-                            <img class="attribute-icon" src="./attribute-images/intelligence.png" />
+                            <img class="attribute-icon" src="./images/intelligence.png" />
                             <div class="attribute-value">${selectedHero.baseInt}</div>
                             <div class="attribute-gain">+${selectedHero.intGain}</div>
                         </div>
@@ -493,16 +498,16 @@ class Heroes {
                 <div class="hero-values-section">
                     <div class="heroes-values-title">Attack</div>
                     <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/sword-icon.png"/>
+                        <img class="stat-icon" src="./images/sword-icon.png"/>
                         ${selectedHero.baseAttackMin}-${selectedHero.baseAttackMax}
                     </div>
                     <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_attack_time.png"/>
+                        <img class="stat-icon" src="./images/icon_attack_time.png"/>
                         ${selectedHero.attackRate}
                     </div>
 
                     <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_attack_range.png"/>
+                        <img class="stat-icon" src="./images/icon_attack_range.png"/>
                         ${selectedHero.attackRange}
                     </div>
 
@@ -511,11 +516,11 @@ class Heroes {
                 <div class="hero-values-section">
                     <div class="heroes-values-title">Defence</div>
                     <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_armor.png"/>
+                        <img class="stat-icon" src="./images/icon_armor.png"/>
                         2.6
                     </div>
                     <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_magic_resist.png"/>
+                        <img class="stat-icon" src="./images/icon_magic_resist.png"/>
                         0.6
                     </div>
                 </div>
@@ -523,16 +528,16 @@ class Heroes {
                 <div class="hero-values-section">
                     <div class="heroes-values-title">Movement</div>
                     <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_movement_speed.png"/>
+                        <img class="stat-icon" src="./images/icon_movement_speed.png"/>
                         ${selectedHero.moveSpeed}
                     </div>
                     <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_turn_rate.png"/>
+                        <img class="stat-icon" src="./images/icon_turn_rate.png"/>
                         ${selectedHero.turnRate}
                     </div>
 
                     <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_vision.png"/>
+                        <img class="stat-icon" src="./images/icon_vision.png"/>
                         1800/800
                     </div>
 
@@ -641,6 +646,17 @@ class Heroes {
         this.chart.data.datasets[0].backgroundColor = updatedPointColor;
         this.chart.update();
     }
+
+    // resetHeroesListOnNavChange() {
+    //     this.filterStrengthHeroes = false;
+    //     this.filterAgilityHeroes = false;
+    //     this.filterIntelHeroes = false;
+
+    //     strFilterButton.classList.remove("active");
+    //     agiFilterButton.classList.remove("active");
+    //     intFilterButton.classList.remove("active");
+
+    // }
 }
 
 async function init() {
@@ -676,21 +692,22 @@ async function init() {
     dota2Heroes.initialiseChart();
 
     showHeroes.onclick = function () {
-        showHeroes.classList.add("active")
-        showChart.classList.remove("active")
+        showHeroes.classList.add("active");
+        showChart.classList.remove("active");
 
-        chartContainer.classList.remove("active")
-        filterChartByRank.classList.remove("active")
-   
-    }
+        chartContainer.classList.remove("active");
+        filterChartByRank.classList.remove("active");
+    };
 
     showChart.onclick = function () {
-        showChart.classList.add("active")
-        showHeroes.classList.remove("active")
+        showChart.classList.add("active");
+        showHeroes.classList.remove("active");
 
-        chartContainer.classList.add("active")
-        filterChartByRank.classList.add("active")
-    }
+        chartContainer.classList.add("active");
+        filterChartByRank.classList.add("active");
+
+        // dota2Heroes.resetHeroesListOnNavChange();
+    };
 }
 
 init();

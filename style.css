@@ -1,7 +1,7 @@
 body {
     /* background-color: rgb(0, 0, 0);
     background-image: linear-gradient(to top right, black , rgb(215, 215, 215)); */
-    background-image: url(./attribute-images/dota2-background-image.jpeg);
+    background-image: url(./images/dota2-background-image.jpeg);
     font-family: Arial, Helvetica, sans-serif;
     background-size: 100% auto;
     background-repeat: no-repeat;
@@ -26,7 +26,7 @@ header .logo {
     min-width: 200px;
     height: 50px;
     min-height: 50px;
-    background-image: url(./attribute-images/dota2_logo_horiz.png);
+    background-image: url(./images/dota2_logo_horiz.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;

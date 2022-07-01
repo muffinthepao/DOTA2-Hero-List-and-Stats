@@ -21,103 +21,7 @@
     </header>
 
     <main id="heroes-list-container">
-    <div class="modal" id="modal">
-        <!-- <div class="modal-header">
-            <img src="./attribute-images/strength.png"/>
-            <div class="title">Abaddon</div>
-            <button data-close-button class="close-button" id="close-button">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div id="hero-attributes">
-                <div class="image-health-mana">
-                    <img src="https://api.opendota.com/apps/dota2/images/dota_react/heroes/abaddon.png">
-                    <div class="healthbar">
-                        <div class="basehealth">640</div>
-                        <div class="health-mana-increase">+3.2</div>
-                    </div>
-
-                    <div class="manabar">
-                        <div class="basemana">291</div>
-                        <div class="health-mana-increase">+1.2</div>
-                    </div>
-                
-                </div>
-
-                <div class="base-attributes-container">
-
-                    <div class="single-attribute-container">
-                        <img class="attribute-icon" src="./attribute-images/strength.png" />
-                        <div class="attribute-value">22</div>
-                        <div class="attribute-gain">+2.6</div>
-                    </div>
-
-                    <div class="single-attribute-container">
-                        <img class="attribute-icon" src="./attribute-images/agility.png" />
-                        <div class="attribute-value">23</div>
-                        <div class="attribute-gain">+1.5</div>
-                    </div>
-
-                    <div class="single-attribute-container">
-                        <img class="attribute-icon" src="./attribute-images/intelligence.png" />
-                        <div class="attribute-value">18</div>
-                        <div class="attribute-gain">+2.0</div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="vertical-separator">
-            </div>
-            <div id="hero-stats">
-                <div class="hero-values-section">
-                    <div class="heroes-values-title">Attack</div>
-                    <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/sword-icon.png"/>
-                        50-60
-                    </div>
-                    <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_attack_time.png"/>
-                        1.7
-                    </div>
-
-                    <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_attack_range.png"/>
-                        150
-                    </div>
-
-                </div>
-
-                <div class="hero-values-section">
-                    <div class="heroes-values-title">Defence</div>
-                    <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_armor.png"/>
-                        2.6
-                    </div>
-                    <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_magic_resist.png"/>
-                        0.6
-                    </div>
-                </div>
-                
-                <div class="hero-values-section">
-                    <div class="heroes-values-title">Movement</div>
-                    <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_movement_speed.png"/>
-                        355
-                    </div>
-                    <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_turn_rate.png"/>
-                        0.6
-                    </div>
-
-                    <div class="heroes-value-element">
-                        <img class="stat-icon" src="./attribute-images/icon_vision.png"/>
-                        1800/800
-                    </div>
-
-                </div>
-            </div>
-        </div> -->
-    </div>
+    <div class="modal" id="modal"></div>
 
     <div id="overlay"></div>
 
@@ -138,14 +42,14 @@
             </select>
             <div id="attribute-filter">
                 <!-- <h3>Filter by Attribute</h3> -->
-                <img id="str" class="filter-buttons" src="./attribute-images/strength.png"/>
-                <img id="agi" class="filter-buttons" src="./attribute-images/agility.png"/>
-                <img id="int" class="filter-buttons" src="./attribute-images/intelligence.png"/>
+                <img id="str" class="filter-buttons" src="./images/strength.png"/>
+                <img id="agi" class="filter-buttons" src="./images/agility.png"/>
+                <img id="int" class="filter-buttons" src="./images/intelligence.png"/>
             </div>
 
             <div class="search-bar">
                 <div class="search-icon">
-                    <img src="./attribute-images/search.svg">
+                    <img src="./images/search.svg">
                 </div>
                 <form>
                     <input id="search-input" class="search-input" type="text" value>
@@ -161,7 +65,7 @@
     <div id="hero-list" class="hero-list"></div>
     </main>
     <div id="null-state">
-        <img src="./attribute-images/null-state.png"/>
+        <img src="./images/null-state.png"/>
         <h3>There is nothing that matches your search</h3>
     </div>
 
