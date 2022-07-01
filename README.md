@@ -1,4 +1,5 @@
 # List and Stats of DOTA2 Heroes
+
 ---
 A page to view a list of DOTA2 Heroes and display a scatter chart to show popularity and success-rate of each hero.
 

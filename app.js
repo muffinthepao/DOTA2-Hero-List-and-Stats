@@ -294,7 +294,7 @@ class Heroes {
         //variable displaylist
         this.heroesToDisplay = heroes;
         this.displayListOfHeroes();
-        // this.resetHeroesListOnNavChange();
+        this.resetFilters();
         this.filterStrengthHeroes = false;
         this.filterAgilityHeroes = false;
         this.filterIntelHeroes = false;
@@ -647,16 +647,17 @@ class Heroes {
         this.chart.update();
     }
 
-    // resetHeroesListOnNavChange() {
-    //     this.filterStrengthHeroes = false;
-    //     this.filterAgilityHeroes = false;
-    //     this.filterIntelHeroes = false;
+    resetFilters() {
+        this.filterStrengthHeroes = false;
+        this.filterAgilityHeroes = false;
+        this.filterIntelHeroes = false;
 
-    //     strFilterButton.classList.remove("active");
-    //     agiFilterButton.classList.remove("active");
-    //     intFilterButton.classList.remove("active");
+        strFilterButton.classList.remove("active");
+        agiFilterButton.classList.remove("active");
+        intFilterButton.classList.remove("active");
+        searchByTextInput.value = "";
 
-    // }
+    }
 }
 
 async function init() {
@@ -669,7 +670,9 @@ async function init() {
 
     filterByAttribute.onclick = function (event) {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
-        console.log(event.target.id);
+        // console.log(event.target.id);
+        
+
     };
 
     searchByTextInput.onkeyup = function () {
@@ -689,24 +692,29 @@ async function init() {
         dota2Heroes.filterChartByRank(event.target.value);
     };
 
-    dota2Heroes.initialiseChart();
-
     showHeroes.onclick = function () {
         showHeroes.classList.add("active");
         showChart.classList.remove("active");
 
         chartContainer.classList.remove("active");
         filterChartByRank.classList.remove("active");
+
+        dota2Heroes.resetFilters();
+        dota2Heroes.searchByName("");
+
     };
 
     showChart.onclick = function () {
+        dota2Heroes.initialiseChart();
+
         showChart.classList.add("active");
         showHeroes.classList.remove("active");
 
         chartContainer.classList.add("active");
         filterChartByRank.classList.add("active");
-
-        // dota2Heroes.resetHeroesListOnNavChange();
+        
+        dota2Heroes.resetFilters();
+        dota2Heroes.updateChartByAttributeOrSearch(dota2Heroes.arrayOfHeroes, "total")    
     };
 }
 

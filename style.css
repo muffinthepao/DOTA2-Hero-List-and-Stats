@@ -93,6 +93,7 @@ header .logo {
     flex-direction: row;
     align-items: center;
     align-content: space-between;
+    border-radius: 5px;
 }
 
 .search-bar .search-icon{
