@@ -454,7 +454,6 @@ class Heroes {
                 <div class="title">${selectedHero.heroName}</div>
                 <button data-close-button class="close-button" id="close-button">&times;</button>
             </div>
-
             <div class="modal-body">
                 <div id="hero-attributes">
                     <div class="image-health-mana">
@@ -463,34 +462,28 @@ class Heroes {
                             <div class="basehealth">${selectedHero.trueBaseHealth}</div>
                             <div class="health-mana-increase">+3.2</div>
                         </div>
-
                         <div class="manabar">
                             <div class="basemana">${selectedHero.trueBaseMana}</div>
                             <div class="health-mana-increase">+1.2</div>
                         </div>
                     
                     </div>
-
                     <div class="base-attributes-container">
-
                         <div class="single-attribute-container">
                             <img class="attribute-icon" src="./images/strength.png" />
                             <div class="attribute-value">${selectedHero.baseStr}</div>
                             <div class="attribute-gain">+${selectedHero.strGain}</div>
                         </div>
-
                         <div class="single-attribute-container">
                             <img class="attribute-icon" src="./images/agility.png" />
                             <div class="attribute-value">${selectedHero.baseAgi}</div>
                             <div class="attribute-gain">+${selectedHero.agiGain}</div>
                         </div>
-
                         <div class="single-attribute-container">
                             <img class="attribute-icon" src="./images/intelligence.png" />
                             <div class="attribute-value">${selectedHero.baseInt}</div>
                             <div class="attribute-gain">+${selectedHero.intGain}</div>
                         </div>
-
                     </div>
                 </div>
             
@@ -505,14 +498,11 @@ class Heroes {
                         <img class="stat-icon" src="./images/icon_attack_time.png"/>
                         ${selectedHero.attackRate}
                     </div>
-
                     <div class="heroes-value-element">
                         <img class="stat-icon" src="./images/icon_attack_range.png"/>
                         ${selectedHero.attackRange}
                     </div>
-
                 </div>
-
                 <div class="hero-values-section">
                     <div class="heroes-values-title">Defence</div>
                     <div class="heroes-value-element">
@@ -535,12 +525,10 @@ class Heroes {
                         <img class="stat-icon" src="./images/icon_turn_rate.png"/>
                         ${selectedHero.turnRate}
                     </div>
-
                     <div class="heroes-value-element">
                         <img class="stat-icon" src="./images/icon_vision.png"/>
                         1800/800
                     </div>
-
                 </div>
             </div>
         </div>
@@ -566,7 +554,7 @@ class Heroes {
         const heroPickAndWinRates = [];
         const chartPointColourBasedOnAttribute = [];
 
-        this.heroesToDisplay.forEach((hero) => {
+        this.arrayOfHeroes.forEach((hero) => {
             heroPickAndWinRates.push({
                 x: hero.totalPicks,
                 y: hero.totalSuccess,
@@ -656,6 +644,7 @@ class Heroes {
         agiFilterButton.classList.remove("active");
         intFilterButton.classList.remove("active");
         searchByTextInput.value = "";
+        
 
     }
 }
@@ -671,12 +660,13 @@ async function init() {
     filterByAttribute.onclick = function (event) {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
         // console.log(event.target.id);
-        
-
+        filterCharts.selectedIndex = 0
+    
     };
 
     searchByTextInput.onkeyup = function () {
         dota2Heroes.searchByName(searchByTextInput.value);
+        filterCharts.selectedIndex = 0
     };
 
     heroesList.onclick = function (event) {
@@ -701,6 +691,8 @@ async function init() {
 
         dota2Heroes.resetFilters();
         dota2Heroes.searchByName("");
+        filterCharts.selectedIndex = 0
+
 
     };
 
@@ -714,7 +706,8 @@ async function init() {
         filterChartByRank.classList.add("active");
         
         dota2Heroes.resetFilters();
-        dota2Heroes.updateChartByAttributeOrSearch(dota2Heroes.arrayOfHeroes, "total")    
+        dota2Heroes.searchByName("");
+        dota2Heroes.updateChartByAttributeOrSearch(dota2Heroes.heroesToDisplay, "total")    
     };
 }
 
