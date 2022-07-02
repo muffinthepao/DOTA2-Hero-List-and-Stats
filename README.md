@@ -3,11 +3,13 @@
 ---
 A page to view a list of DOTA2 Heroes and display a scatter chart to show popularity and success-rate of each hero.
 
+Weblink: https://muffinthepao.github.io/project1/
+
 ## Introduction
 
 The aim of this project was to see if I could incorporate as much of what I've learnt during Unit 1 of my General Assembly (GA) Software Engineering Immersive Flex (SEIF) program.
 
-## Things I've included to practise:
+## Things I've included to practise
 
 - API Call
 - DOM Manipulation
