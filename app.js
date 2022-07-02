@@ -667,6 +667,8 @@ async function init() {
 
     searchByTextInput.onkeyup = function () {
         dota2Heroes.searchByName(searchByTextInput.value);
+        currentOption = filterCharts.options[filterCharts.selectedIndex].value;
+        dota2Heroes.updateChartByAttributeOrSearch(dota2Heroes.heroesToDisplay, currentOption)
     };
 
     heroesList.onclick = function (event) {
