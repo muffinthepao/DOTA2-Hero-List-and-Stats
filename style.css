@@ -3,13 +3,11 @@ body {
     background-image: linear-gradient(to top right, black , rgb(215, 215, 215)); */
     background-image: url(./images/dota2-background-image.jpeg);
     font-family: Arial, Helvetica, sans-serif;
-    background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: center top;
     background-attachment: fixed;
     position: relative;
     min-height: 0;
-
 }
 
 header {
