@@ -126,11 +126,6 @@ header .logo {
     display: inline-block
 }
 
-/* #show-heroes {
-
-} */
-
-
 #chart-container {
     height: calc(100vh - 162px);
     display: none;
@@ -179,7 +174,7 @@ header .logo {
     align-items: space-around; */
     width: 100%;
     height: 50px;
-    position: absolute;
+    position: relative;
     bottom: -40px;
     left: 0;
     display: flex;

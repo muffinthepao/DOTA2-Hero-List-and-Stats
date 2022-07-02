@@ -9,7 +9,7 @@ const showChart = document.getElementById("show-chart");
 //hero-chart related
 const filterCharts = document.getElementById("rank");
 const chartContainer = document.getElementById("chart-container");
-const currentOption = filterCharts.options[filterCharts.selectedIndex].value;
+let currentOption = filterCharts.options[filterCharts.selectedIndex].value;
 
 //hero-list related
 const heroesList = document.querySelector("#hero-list");
@@ -591,7 +591,7 @@ class Heroes {
         this.chart.update();
     }
 
-    filterChartByRank(option) {
+    filterChartByRank(option) { console.log(option)
         let filteredByRank = [];
         this.heroesToDisplay.forEach((hero) => {
             filteredByRank.push({
@@ -660,14 +660,13 @@ async function init() {
 
     filterByAttribute.onclick = function (event) {
         dota2Heroes.filterByAttribute(event.target.id, event.target);
-        // console.log(event.target.id);
-        filterCharts.selectedIndex = 0
+        currentOption = filterCharts.options[filterCharts.selectedIndex].value;
+        dota2Heroes.updateChartByAttributeOrSearch(dota2Heroes.heroesToDisplay, currentOption)
     
     };
 
     searchByTextInput.onkeyup = function () {
         dota2Heroes.searchByName(searchByTextInput.value);
-        filterCharts.selectedIndex = 0
     };
 
     heroesList.onclick = function (event) {
