@@ -427,8 +427,16 @@ class Heroes {
 
         if (this.heroesToDisplay.length === 0) {
             document.getElementById("null-state").style.display = "flex";
+            if(showChart.classList.contains("active")){
+                chartContainer.style.display = "none";
+            }
+
+            
         } else {
             document.getElementById("null-state").style.display = "none";
+            if(showChart.classList.contains("active")){
+                chartContainer.style.display = "block";
+            }
         }
 
         this.updateChartByAttributeOrSearch(
