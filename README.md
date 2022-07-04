@@ -3,7 +3,7 @@
 ---
 A page to view a list of DOTA2 Heroes and display a scatter chart to show popularity and success-rate of each hero.
 
-Weblink: https://muffinthepao.github.io/project1/
+Weblink: https://muffinthepao.github.io/DOTA2-Hero-List-and-Stats/
 
 ## Introduction
 
@@ -71,5 +71,5 @@ Multiple filters working at the same chart
 
 ## Points to Improve
 
-- Filter-by-attributes button still shows and is clickable even when modal is displayed
 - For the chart, when using search input, rather than filtering out all the Heroes, keep all Heroes on the chart but grey out the non-relevant Heroes
+- Rather than the text input filter filtering out the Heroes that do not meet the filter criteria, keep the heroes in the chart but grey them out instead
