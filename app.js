@@ -697,6 +697,7 @@ async function init() {
         showChart.classList.remove("active");
 
         chartContainer.classList.remove("active");
+        chartContainer.style.display = "none";
         filterChartByRank.classList.remove("active");
 
         dota2Heroes.resetFilters();
