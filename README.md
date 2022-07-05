@@ -62,7 +62,7 @@ Multiple filters working at the same chart
 ## Learning Challenges
 
 - Able to create 2 constructor classes with 1 being used in the other
-- Able push API call data in to constructor class
+- Able to push API call data in to constructor class
 - Able to filter API call data to only what I needed
 - Some CSS animations, where on mouse-hover, Hero Name is displayed
 - Manipulate just 1 array for all the different functions
@@ -71,5 +71,4 @@ Multiple filters working at the same chart
 
 ## Points to Improve
 
-- For the chart, when using search input, rather than filtering out all the Heroes, keep all Heroes on the chart but grey out the non-relevant Heroes
 - Rather than the text input filter filtering out the Heroes that do not meet the filter criteria, keep the heroes in the chart but grey them out instead
