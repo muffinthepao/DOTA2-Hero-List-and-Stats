@@ -72,3 +72,4 @@ Multiple filters working at the same chart
 ## Points to Improve
 
 - Rather than the text input filter filtering out the Heroes that do not meet the filter criteria, keep the heroes in the chart but grey them out instead
+- make site fully mobile responsive
