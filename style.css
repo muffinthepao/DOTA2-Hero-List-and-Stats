@@ -85,6 +85,18 @@ header .logo {
     filter: contrast(100%);
 }
 
+.uni {
+    filter: grayscale(1); 
+}
+
+.uni:hover {
+    filter: grayscale(0.1);
+}
+
+.uni.active {
+    filter: grayscale(0.1);
+}
+
 .search-bar {
     width: 250px;
     height: 50px;

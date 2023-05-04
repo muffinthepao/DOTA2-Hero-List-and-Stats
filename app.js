@@ -16,6 +16,7 @@ const heroesList = document.querySelector("#hero-list");
 const strAttributeImg = "./images/strength.png";
 const agiAttributeImg = "./images/agility.png";
 const intAttributeImg = "./images/intelligence.png";
+const uniAttributeImg = "./images/universal.png";
 
 //to filter list of heroes
 const filterByAttribute = document.querySelector("#attribute-filter");
@@ -23,6 +24,7 @@ const searchByTextInput = document.getElementById("search-input");
 const strFilterButton = document.getElementById("str");
 const agiFilterButton = document.getElementById("agi");
 const intFilterButton = document.getElementById("int");
+const uniFilterButton = document.getElementById("uni");
 
 //to display hero stats
 const displayModal = document.querySelector("#modal");
@@ -298,6 +300,7 @@ class Heroes {
         this.filterStrengthHeroes = false;
         this.filterAgilityHeroes = false;
         this.filterIntelHeroes = false;
+        this.filterUniHeroes = false;
         this.chart = new Chart(document.getElementById("chart"), config);
     }
 
@@ -330,6 +333,10 @@ class Heroes {
 
                 if (element.primaryAttri === "int") {
                     return intAttributeImg;
+                }
+
+                if (element.primaryAttri === "all") {
+                    return uniAttributeImg;
                 }
             }
 
@@ -368,28 +375,37 @@ class Heroes {
             intFilterButton.classList.remove("active");
         }
 
+        if (id === "uni") {
+            this.filterUniHeroes = !this.filterUniHeroes;
+            uniFilterButton.classList.remove("active");
+        }
+
         const attributesOfHeroesToShowInList = [];
-        // const attributesOfHeroesToShowInChart = [];
+  
         if (this.filterStrengthHeroes) {
             attributesOfHeroesToShowInList.push("str");
-            // attributesOfHeroesToShowInChart.push("str");
             strFilterButton.classList.add("active");
         }
         if (this.filterAgilityHeroes) {
             attributesOfHeroesToShowInList.push("agi");
-            // attributesOfHeroesToShowInChart.push("agi");
+
             agiFilterButton.classList.add("active");
         }
         if (this.filterIntelHeroes) {
             attributesOfHeroesToShowInList.push("int");
-            // attributesOfHeroesToShowInChart.push("int");
             intFilterButton.classList.add("active");
+        }
+
+        if (this.filterUniHeroes) {
+            attributesOfHeroesToShowInList.push("all");
+            uniFilterButton.classList.add("active");
         }
 
         const isAllFiltersUnchecked =
             !this.filterStrengthHeroes &&
             !this.filterAgilityHeroes &&
-            !this.filterIntelHeroes;
+            !this.filterIntelHeroes&& 
+            !this.filterUniHeroes;
 
         if (isAllFiltersUnchecked) {
             this.heroesToDisplay = this.arrayOfHeroes;
@@ -410,9 +426,12 @@ class Heroes {
         this.filterStrengthHeroes = false;
         this.filterAgilityHeroes = false;
         this.filterIntelHeroes = false;
+        this.filterUniHeroes = false;
         strFilterButton.classList.remove("active");
         agiFilterButton.classList.remove("active");
         intFilterButton.classList.remove("active");
+        uniFilterButton.classList.remove("active");
+        
 
         heroesList.innerHTML = "";
 
@@ -579,7 +598,11 @@ class Heroes {
             }
 
             if (hero.primaryAttri === "int") {
-                chartPointColourBasedOnAttribute.push("rgb(57,217,236");
+                chartPointColourBasedOnAttribute.push("rgb(57,217,236)");
+            }
+
+            if (hero.primaryAttri === "all") {
+                chartPointColourBasedOnAttribute.push("rgb(255,210,79)");
             }
         });
 
@@ -636,6 +659,12 @@ class Heroes {
             if (hero.primaryAttri === "int") {
                 updatedPointColor.push("rgb(57,217,236");
             }
+
+            if (hero.primaryAttri === "all") {
+                updatedPointColor.push("rgb(255,210,79");
+            }
+
+            
         });
 
         this.chart.data.datasets[0].data = updatedByAttribute;
@@ -647,10 +676,12 @@ class Heroes {
         this.filterStrengthHeroes = false;
         this.filterAgilityHeroes = false;
         this.filterIntelHeroes = false;
+        this.filterUniHeroes = false;
 
         strFilterButton.classList.remove("active");
         agiFilterButton.classList.remove("active");
         intFilterButton.classList.remove("active");
+        uniFilterButton.classList.remove("active");
         searchByTextInput.value = "";
 
         filterCharts.selectedIndex = 0
