@@ -209,6 +209,8 @@ header .logo {
     width: 35px;
     height: 35px;
     margin-left: 0.25em;
+    border-radius: 20px;
+
 }
 
 .hero-name-display h4{
