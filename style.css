@@ -87,6 +87,7 @@ header .logo {
 
 .uni {
     filter: grayscale(1); 
+    border-radius: 20px;
 }
 
 .uni:hover {
